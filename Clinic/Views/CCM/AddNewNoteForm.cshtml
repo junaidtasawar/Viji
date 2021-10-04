@@ -1,0 +1,23 @@
+﻿﻿@model ClinicBO.CCMNoteInfoModel
+    <form id="AddNewNoteFormID" action="/CCM/InsertCCMNoteInfo" method="post" class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.CCMNoteText, new { @class = "form-control ", placeholder = "CCM Note Title" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextAreaFor(model => model.CCMNoteDescrption, new { @class = "form-control ", placeholder = "CCM Note Description" })
+                </div>
+            </div>
+        </div>
+</form>
+<script src="~/assets/js/jquery-3.3.1.min.js"></script>
+<script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+
+<script type="text/javascript">
+    $('#CCMdatepicker').datepicker({
+        autoclose: true
+    });
+</script>

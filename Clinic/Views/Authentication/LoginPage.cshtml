@@ -1,0 +1,114 @@
+﻿@model Clinic.Models.LoginModel.LoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <style>
+        div.card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            text-align: center;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.4 -->
+    <link href="~/Content/themes/base/minified/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <link href="~/Content/themes/base/minified/font-awesome.min.css" rel="stylesheet" />
+    <!-- Theme style -->
+    <link href="~/Content/themes/base/minified/AdminLTE.min.css" rel="stylesheet" />
+    <script src="~/Scripts/utility/error.js"></script>
+    <script src="~/Scripts/Validation/validation.js"></script>
+</head>
+<body class="login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <img src="~/dist/img/dolfhin.png" />
+        </div>
+        <div class="card">
+            <!-- /.login-logo -->
+            <div class="login-box-body">
+                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg" id="ErrorDisplay" style="color: red"></p>
+                <form class="form-horizontal" id="LoginFormID" action="/authentication/AuthorizeUser" method="post">
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(model => model.UserName, new { placeholder = "Username", @class = "form-control", tabindex = 1 })
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.PasswordFor(model => model.Password, new { placeholder = "Password", @class = "form-control", tabindex = 2 })
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            @*<div class="checkbox icheck">
+                                    <label>
+                                        <input type="checkbox">
+                                        Remember Me
+                                    </label>
+                                </div>*@
+                            <a href="/authentication/forgotpassword">I forgot my password</a>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <input type="button" tabindex="3" class="btn btn-primary btn-block btn-flat" value="Sign In" onclick="AuthorizeUser();" />
+                            @*<button type="button" class="btn btn-primary btn-block btn-flat">Sign In</button>*@
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="~/plugins/jQuery/jquery-3.1.1.min.js"></script>
+    @*<script src="~/plugins/jquery_tags/jQuery/jQuery-2.1.4.min.js"></script>*@
+    <script src="~/plugins/notification/notify.js"></script>
+    <script>
+        $(function () {
+            $("#Username").focus();
+        });
+
+        $("#LoginFormID").submit(function (e) {
+            $("#ErrorDisplay").text("");
+            var postData = $(this).serializeArray();
+            var formURL = $(this).attr("action");
+            $.ajax(
+            {
+                url: formURL,
+                type: "POST",
+                data: postData,
+                success: function (message, textStatus, jqXHR) {
+                    if (message == "1") {
+                        window.location.href = "/home/Dashboard";
+                    }
+                    else if (message == "0") {
+                        $("#ErrorDisplay").text(error["IncorrectUsernameOrPassword"]);
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
+            e.preventDefault(); //STOP default action
+            // e.unbind(); //unbind. to stop multiple form submit.
+        });
+
+        function AuthorizeUser() {
+            var message = ValidateLoginDetails();
+            if (message == "") {
+                $("#LoginFormID").submit();
+            }
+            else {
+                $("#ErrorDisplay").text(message);
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,401 @@
+﻿﻿@model Clinic.Models.PatientModel.PatientModel
+
+@{
+    ViewBag.Title = "PatientIndividualProfile";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<link href="~/Content/themes/base/minified/CustomStyleSheet.css" rel="stylesheet" />
+<div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
+<div class="main-content-wrap">
+    <header class="page-header">
+        <h3 class="page-title">Clinical Profile</h3>
+    </header>
+    @Html.HiddenFor(model => model.PatientID)
+    @Html.HiddenFor(model => model.CCMNoteID)
+    @Html.HiddenFor(model => model.FullName)
+    <div class="page-content">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 col-md-4">
+                        <div class="form-group text-left">
+                            <i class="fa fa-user"></i><span>@Model.FullName</span>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group text-center">
+                            <label for="inputTimeSpent" id="inputTimeSpent">@Model.inputTimeSpent</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group text-right">
+                            <button type="button" class="btn btn-primary" onclick="DisplayCCMNotePopup(' + @Model.StatusName + ')">Add CCM Note</button>
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav nav-tabs" id="patientIndividualTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="home" aria-selected="true">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#allergies" role="tab" aria-controls="allergies" aria-selected="false">Allergies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="medications-tab" data-toggle="tab" href="#medications" role="tab" aria-controls="medications" aria-selected="false">Medications</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="vital-tab" data-toggle="tab" href="#vital" role="tab" aria-controls="vital" aria-selected="false">Vital</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="diagnosis-tab" data-toggle="tab" href="#diagnosis" role="tab" aria-controls="diagnosis" aria-selected="false">Diagnosis</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="patientpreference-tab" data-toggle="tab" href="#patientpreference" role="tab" aria-controls="patientpreference" aria-selected="false">Patient Preference</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <div class="active tab-pane" id="profile">
+                            <div class="page-content">
+                                <div class="card mb-0">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <b>MRN Number</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.MRNNumber
+                                                        </td>
+                                                        <td>
+                                                            <b>Custom Patient ID</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.CustomPatientID
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Date of Birth</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.DOBStr
+                                                        </td>
+                                                        <td>
+                                                            <b>Age</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.Age
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Gender</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.GenderStr
+                                                        </td>
+                                                        <td>
+                                                            <b>Facility</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.ClinicName
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Ethnicity</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.Ethnicity
+                                                        </td>
+                                                        <td>
+                                                            <b>Races</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.Races
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Preferred Language </b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.PrimaryLanguage
+                                                        </td>
+                                                        <td>
+                                                            <b>Secondary Language</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.SecondaryLanguage
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Address</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.Address
+                                                        </td>
+                                                        <td>
+                                                            <b>City</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.CityName
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>State</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.StateName
+                                                        </td>
+                                                        <td>
+                                                            <b>Country</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.CountryName
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Home Phone</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.HomePhone
+                                                        </td>
+                                                        <td>
+                                                            <b>Work Phone</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.WorkPhone
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Cell Phone</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.CellNumber
+                                                        </td>
+                                                        <td>
+                                                            <b>Email</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.Email
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Driver License ID</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.DriverLicenseID
+                                                        </td>
+                                                        <td>
+                                                            <b>Driver License State</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.DriverLicenseState
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Marital Status</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.MaritalStatus
+                                                        </td>
+                                                        <td>
+                                                            <b>SSN</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.SSN
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <b>Guardian's Name</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.GuardianName
+                                                        </td>
+                                                        <td>
+                                                            <b>Status</b>
+                                                        </td>
+                                                        <td>
+                                                            @Model.StatusName
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="allergies" role="tabpanel" aria-labelledby="allergies-tab">
+                        <br />
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary text-right" onclick="AddNewAllergy();">Add Allergy</button>
+                        </div>
+                        <br />
+                        <div class="page-content">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="allergiesListGrid"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="medications" role="tabpanel" aria-labelledby="medications-tab">
+                        <br />
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary text-right" onclick="AddNewMedication();">Add Medication</button>
+                        </div>
+                        <br />
+                        <div class="page-content">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="medicationListGrid"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="vital" role="tabpanel" aria-labelledby="vital-tab">
+                        <br />
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary text-right" onclick="AddNewVital();">Add Vital</button>
+                        </div>
+                        <br />
+                        <div class="page-content">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="vitalListGrid"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="diagnosis" role="tabpanel" aria-labelledby="diagnosis-tab">
+                        <br />
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary text-right" onclick="AddNewDiagnosis();">Add Diagnosis</button>
+                        </div>
+                        <br />
+                        <div class="page-content">
+                            <div class="card mb-0">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="diagnosisListGrid"></table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="patientpreference" role="tabpanel" aria-labelledby="patientpreference-tab">
+                        @Html.Action("PatientPreferenceForm")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="AddVitalModel">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Vital</h5>
+                </div>
+                <div class="modal-body" id="AddVitalFormDiv">
+                    @Html.Action("AddVitalForm")
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" onclick="ResetVitalDetails();">Reset</button>
+                        <button type="button" class="btn btn-info text-left" onclick="SaveVitalDetails();">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="AddAllergyModel" class="modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Allergy</h5>
+                </div>
+                <div class="modal-body" id="AddAllergyFormDiv">
+                    @Html.Action("AddAllergyForm")
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" onclick="ResetAllergyDetails();">Reset</button>
+                        <button type="button" class="btn btn-info" onclick="SaveAllergyDetails();">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="AddDiagnosisModel" class="modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Diagnosis</h5>
+                </div>
+                <div class="modal-body" id="AddDiagnosisFormDiv">
+                    @Html.Action("AddDiagnosisForm")
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" onclick="ResetDiagnosisDetails();">Reset</button>
+                        <button type="button" class="btn btn-info text-right" onclick="SaveDiagnosisDetails();">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="AddMedicationModel" class="modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Medication</h5>
+                </div>
+                <div class="modal-body" id="AddMedicationFormDiv">
+                    @Html.Action("AddMedicationForm")
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" onclick="ResetMedicationDetails();">Reset</button>
+                        <button type="button" class="btn btn-success" onclick="SaveAddNewMedicationDetails();">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+<link href="~/Content/themes/base/minified/jquery-ui.css" rel="stylesheet" />
+<script src="~/plugins/notification/notify.js"></script>
+<script src="~/Scripts/utility/common.js"></script>
+<script src="~/Scripts/utility/error.js"></script>
+<script src="~/Scripts/Validation/validation.js"></script>
+<link href="~/plugins/gijgo/gijgo.css" rel="stylesheet" />
+<script src="~/plugins/gijgo/gijgo.js"></script>
+<script src="~/js/PatientCCM.js"></script>
+<script src="~/js/Allergy.js"></script>
+<script src="~/js/Medication.js"></script>
+<script src="~/js/Vital.js"></script>
+<script src="~/js/Diagnosis.js"></script>

@@ -1,0 +1,646 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>dolfhin</title>
+    <meta name="keywords" content="MedicApp">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/assets/img/favicon.ico">
+    <script src="~/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="~/assets/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="//sdk.twilio.com/js/client/releases/1.10.1/twilio.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.2.min.js"></script>
+    <script src="/signalr/hubs"></script>
+
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="~/assets/css/icofont.min.css" />
+    <link rel="stylesheet" href="~/assets/css/simple-line-icons.css" />
+    <link rel="stylesheet" href="~/assets/css/jquery.typeahead.css" />
+    @*<link rel="stylesheet" href="~/assets/css/datatables.min.css" />*@
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="~/assets/css/leaflet.css" />
+
+
+    <!-- Theme CSS -->
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+</head>
+
+
+<body class="vertical-layout boxed">
+    <div class="app-loader main-loader">
+        <div class="loader-box">
+            <div class="bounceball"></div>
+            <div class="text">dolfhin</div>
+        </div>
+    </div>
+    <!-- .main-loader -->
+
+    <div class="page-box">
+        <div class="app-container">
+            <!-- Horizontal navbar -->
+            <div id="navbar1" class="app-navbar horizontal">
+                <div class="navbar-wrap">
+                    <button class="no-style navbar-toggle navbar-open d-lg-none">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <a href="@Url.Action("Pricing","Home")" style="margin-left: 850px;font-size: large;margin-top: 11px;">Pricing</a>
+
+                    @*@{Html.RenderAction("_StoryWidgetPartial", "Story", new { SName = "Cricket" });}*@
+
+                    <div class="dropdown item">
+                        <button class="no-style dropdown-toggle" style="margin-left: 33px; margin-top: 11px;"
+                                type="button"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                                data-offset="0, 12">
+                            <span class="icon icofont-notification"></span>
+                            <span class="badge badge-danger badge-sm"></span>
+                        </button>
+
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-w-280">
+                            <div class="menu-header">
+                                <h4 class="h5 menu-title mt-0 mb-0">Notifications</h4>
+
+                                <a href="#" class="text-danger">Clear All</a>
+                            </div>
+                            <ul class="list" id="div1">
+                            </ul>
+                            <div class="menu-footer">
+                                <button class="btn btn-primary btn-block">
+                                    View all notifications
+                                    <span class="btn-icon ml-2 icofont-tasks-alt"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="app-actions">
+                        <div class="dropdown item">
+                            <button class="no-style dropdown-toggle"
+                                    type="button"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    data-offset="0, 10">
+                                <span class="d-flex align-items-center">
+                                    <img src="../assets/content/user-400-1.jpg" alt="" width="40" height="40" class="rounded-500 mr-1">
+                                    <i class="icofont-simple-down"></i>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right dropdown-menu-w-180">
+                                <ul class="list">
+                                    <li>
+                                        <a href="#" onclick="ChangePassword();" class="align-items-center">
+                                            <span class="icon icofont-ui-settings"></span>
+                                            Change Password
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="SignOut()" class="align-items-center">
+                                            <span class="icon icofont-logout"></span>
+                                            Log Out
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="navbar-skeleton horizontal">
+                        <div class="left-part d-flex align-items-center">
+                            <span class="navbar-button bg animated-bg d-lg-none"></span>
+                            <span class="sk-logo bg animated-bg d-none d-lg-block"></span>
+                            <span class="search d-none d-md-block bg animated-bg"></span>
+                        </div>
+
+                        <div class="right-part d-flex align-items-center">
+                            <div class="icon-box">
+                                <span class="icon bg animated-bg"></span>
+                                <span class="badge"></span>
+                            </div>
+                            <span class="avatar bg animated-bg"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- end Horizontal navbar -->
+            <!-- Vertical navbar -->
+            <div id="navbar2" class="app-navbar vertical">
+                <div class="navbar-wrap">
+                    <button class="no-style navbar-toggle navbar-close icofont-close-line d-lg-none"></button>
+
+                    <div class="app-logo">
+                        <div class="logo-wrap">
+                            <img src="~/dist/img/dolfhin.png" width="300" height="66" />
+                        </div>
+                    </div>
+
+                    <div class="main-menu">
+                        <nav class="main-menu-wrap">
+                            <ul class="menu-ul">
+                                @*<li class="menu-item">
+                                        <span class="group-title">Medicine</span>
+                                    </li>*@
+                                <li class="menu-item">
+                                    <a class="item-link" href="/home/RPMDashboard">
+                                        <span class="link-icon icofont-thermometer-alt"></span>
+                                        <span class="link-text">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a class="item-link" href="/Clinic/Index">
+                                        <span class="link-icon icofont-stethoscope-alt"></span>
+                                        <span class="link-text">Clinic</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a class="item-link" href="/User/Index">
+                                        <span class="link-icon icofont-doctor"></span>
+                                        <span class="link-text">Users</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a class="item-link" href="/Patient/Index">
+                                        <span class="link-icon icofont-nurse"></span>
+                                        <span class="link-text">Patient</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a class="item-link" href="/Provider/Index">
+                                        <span class="link-icon icofont-paralysis-disability"></span>
+                                        <span class="link-text">Provider</span>
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a class="item-link" href="/Report/PatientReport">
+                                        <span class="link-icon icofont-pay"></span>
+                                        <span class="link-text">Reports</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <div class="navbar-skeleton vertical">
+                        <div class="top-part">
+                            <div class="sk-logo bg animated-bg"></div>
+                            <div class="sk-menu">
+                                <span class="sk-menu-item menu-header bg-1 animated-bg"></span>
+                                <span class="sk-menu-item bg animated-bg w-75"></span>
+                                <span class="sk-menu-item bg animated-bg w-80"></span>
+                                <span class="sk-menu-item bg animated-bg w-50"></span>
+                                <span class="sk-menu-item bg animated-bg w-75"></span>
+                                <span class="sk-menu-item bg animated-bg w-50"></span>
+                                <span class="sk-menu-item bg animated-bg w-60"></span>
+                            </div>
+                            <div class="sk-menu">
+                                <span class="sk-menu-item menu-header bg-1 animated-bg"></span>
+                                <span class="sk-menu-item bg animated-bg w-60"></span>
+                                <span class="sk-menu-item bg animated-bg w-40"></span>
+                                <span class="sk-menu-item bg animated-bg w-60"></span>
+                                <span class="sk-menu-item bg animated-bg w-40"></span>
+                                <span class="sk-menu-item bg animated-bg w-40"></span>
+                                <span class="sk-menu-item bg animated-bg w-40"></span>
+                                <span class="sk-menu-item bg animated-bg w-40"></span>
+                            </div>
+                            <div class="sk-menu">
+                                <span class="sk-menu-item menu-header bg-1 animated-bg"></span>
+                                <span class="sk-menu-item bg animated-bg w-60"></span>
+                                <span class="sk-menu-item bg animated-bg w-50"></span>
+                            </div>
+                            <div class="sk-button animated-bg w-90"></div>
+                        </div>
+
+                        <div class="bottom-part">
+                            <div class="sk-menu">
+                                <span class="sk-menu-item bg-1 animated-bg w-60"></span>
+                                <span class="sk-menu-item bg-1 animated-bg w-80"></span>
+                            </div>
+                        </div>
+
+                        <div class="horizontal-menu">
+                            <span class="sk-menu-item bg animated-bg"></span>
+                            <span class="sk-menu-item bg animated-bg"></span>
+                            <span class="sk-menu-item bg animated-bg"></span>
+                            <span class="sk-menu-item bg animated-bg"></span>
+                            <span class="sk-menu-item bg animated-bg"></span>
+                            <span class="sk-menu-item bg animated-bg"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- end Vertical navbar -->
+
+            <main class="main-content">
+                @RenderBody()
+            </main>
+
+            <div class="app-footer">
+                <div class="footer-wrap">
+                    <div class="row h-100 align-items-center">
+                        <div class="col-12 col-md-6 d-none d-md-block">
+                            <ul class="page-breadcrumbs">
+                                <li class="item">
+                                    <a href="/home/Dashboard" class="link">Dashboard</a>
+
+                                    <i class="separator icofont-thin-right"></i>
+                                </li>
+
+                                <li class="item">
+                                    <a href=# class="link">Default</a>
+
+                                    <i class="separator icofont-thin-right"></i>
+                                </li>
+
+                            </ul>
+                        </div>
+
+                        <div class="col-12 col-md-6 text-right">
+                            <div class="d-flex align-items-center justify-content-center justify-content-md-end">
+                                <span>Version 1.0.0</span>
+                                <button class="no-style ml-2 settings-btn" data-toggle="modal" data-target="#settings">
+                                    <span class="icon icofont-ui-settings text-primary"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer-skeleton">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-md-6 d-none d-md-block">
+                                <ul class="page-breadcrumbs">
+                                    <li class="item bg-1 animated-bg"></li>
+                                    <li class="item bg animated-bg"></li>
+                                </ul>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div class="info justify-content-center justify-content-md-end">
+                                    <div class="version bg animated-bg"></div>
+                                    <div class="settings animated-bg"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-overlay"></div>
+        </div>
+    </div>
+
+    <!-- Add patients modals -->
+    <div class="modal fade" id="add-patient" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add new patient</h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group avatar-box d-flex">
+                            <img src="../assets/content/anonymous-400.jpg" width="40" height="40" alt="" class="rounded-500 mr-4">
+
+                            <button class="btn btn-outline-primary" type="button">
+                                Select image<span class="btn-icon icofont-ui-user ml-2"></span>
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Name">
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-control" type="number" placeholder="Number">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="number" placeholder="Age">
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <div class="form-group">
+                                    <select class="selectpicker" title="Gender">
+                                        <option class="d-none">Gender</option>
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <textarea class="form-control" placeholder="Address" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-error" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-info">Add patient</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end Add patients modals -->
+    <!-- Add patients modals -->
+    <div class="modal fade" id="settings" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Application's settings</h5>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>Layout</label>
+                            <select class="selectpicker" title="Layout" id="layout">
+                                <option value="horizontal-layout">Horizontal</option>
+                                <option value="vertical-layout">Vertical</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Light/dark topbar</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="topbar">
+                                <label class="custom-control-label" for="topbar"></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Light/dark sidebar</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="sidebar">
+                                <label class="custom-control-label" for="sidebar"></label>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <label>Boxed/fullwidth mode</label>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="boxed" checked>
+                                <label class="custom-control-label" for="boxed"></label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer d-block">
+                    <div class="actions justify-content-between">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button id="reset-to-default" type="button" class="btn btn-error">Reset to default</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end Add patients modals -->
+
+
+    <script src="~/assets/js/jquery.typeahead.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+    <script src="~/assets/js/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/jquery.barrating.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <script src="~/Scripts/utility/common.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //$('span.badge').click(function (e) {
+            //    debugger;
+            //    e.stopPropagation();
+            //    $('span.badge').html('');
+            //})
+            //initSocket();
+            //no - style dropdown - toggle
+
+            $('span.icon').click(function (e) {
+                $("span.badge").css({ display: "none" });
+            })
+            $('span.badge').click(function (e) {
+                $("span.badge").css({ display: "none" });
+            })
+            $('span.icon').click(function (e) {
+                debugger;
+                e.stopPropagation();
+                var count = 0;
+                count = parseInt($('span.badge').html()) || 0;
+                if (count > 0) {
+                    updateNotification();
+                }
+                $('span.badge', this).html('&nbsp;');
+            })
+            $('span.badge').click(function (e) {
+                debugger;
+                e.stopPropagation();
+                var count = 0;
+                count = parseInt($('span.badge').html()) || 0;
+                if (count > 0) {
+                    updateNotification();
+                    $('span.badge').html('');
+                }
+                $('span.badge', this).html('&nbsp;');
+            })
+            // update notification
+            debugger;
+            //function initSocket(recordType) {
+            //    var uri = "ws://localhost:2254/api/Notification";
+            //    websocket = new WebSocket(uri);
+            //    websocket.onopen = function () {
+            //        $('#messages').prepend('<div>Connected to server.</div>');
+            //        websocket.send(recordType);
+            //    };
+            //    websocket.onerror = function (event) {
+            //        $('#messages').prepend('<div>ERROR</div>');
+            //    };
+            //    debugger;
+            //    websocket.onmessage = function (event) {
+            //        $('#messages').prepend('<div>' + event.data + '</div>');
+            //        updateNotificationCount();
+            //        console.log(event.data);
+            //    }
+            //}
+            function updateNotification() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/Home/GetNotifications',
+                    success: function (response) {
+                        debugger;
+                        $('#div1').empty();
+                        if (response.length == 0) {
+                            document.getElementById("div1").innerHTML += '<li> <a href = "#" ><span class="icon icofont-heart"></span><div class="content"><span  class="desc">' + 'Currently You Have No New Notifications' + '</span></li></a>'
+                        }
+                        $.each(response, function (index, value) {
+                            console.log(value);
+                            //document.getElementsByClassName("list").innerHTML = '<li data-grid-id="' + value.PatientName + '"><a href="#">' + value.BPStr + '<span class="glyphicon glyphicon-chevron-right"></span></a></li>';
+                            document.getElementById("div1").innerHTML += '<li> <a href = "#" ><span class="icon icofont-heart"></span><div class="content"><span  class="desc">' + value.PatientName + ' ' + 'BP' + ' ' + value.BP + ' ' + 'has been updated' + '</span></li></a>'
+                            //$('#notiContent').html('The User , ' + value.PatientName + '&nbsp;' + 'Of BP' + ' (' + value.BPStr + ') Is Written Something');
+                            //    $('#notiContent').append($('<li>The User , ' + value.PatientName + '&nbsp;' + 'Of BP' + ' (' + value.BPStr + ') Is Written Something.</li>'));
+                        });
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                })
+            }
+            // update notification count
+            function updateNotificationCount() {
+                $('span.badge').show();
+                var count = 0;
+                count = parseInt($('span.badge').html()) || 0;
+                count++;
+                //$('span.noti').css("color", "white");
+                //$('span.count').css({ "background-color": "red", "color": "white" });
+                $('span.badge').html(count);
+            }
+             //signalr js code for start hub and send receive notification
+            if (notificationHub != 'undefined') {
+                var notificationHub = $.connection.notificationHub;
+                $.connection.hub.start().done(function () {
+                    console.log('Notification hub started');
+                });
+                //signalr method for push server message to client
+                notificationHub.client.notify = function (message) {
+                    if (message && message.toLowerCase() == "added") {
+                        updateNotificationCount();
+                    }
+                }
+            }
+
+        $(".sidebar-menu ul").removeClass("active");
+        $(".sidebar-menu li").removeClass("active");
+        @{ Clinic.Models.LoginModel.LoginModel user = (Clinic.Models.LoginModel.LoginModel)Session["User"]; }
+        @if (user != null)
+        {
+            ViewBag.UserName = user.FirstName + " " + user.LastName;
+        }
+        $("#UsernameDisplay").text('@ViewBag.UserName');
+        $("#UsernameDisplayDetails").text('@ViewBag.UserName');
+        var userid = @user.ID;
+        if(userid != 1){
+            $("#UserDiv").hide();
+        }
+        });
+    @*function loadPartialView() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Notifications", "Home")',
+            success: function (result) {
+                //$('#cartdetails').html('');
+                $('#cartdetails').empty();
+                if (result.length == 0) {
+                    $('#cartdetails').append($('<li>Currently You Have No New Notifications.</li>'));
+                }
+                else {
+                    $('#cartdetails').append($(result));
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+
+    };*@
+    function SignOut() {
+    $.ajax({
+    type: "POST",
+    url: '/authentication/signout',
+    data: {
+    },
+    success: function (result) {
+    localStorage.timerValue = null;
+    window.location.href = "/authentication/Login";
+    },
+    error: function () {
+    }
+    });
+    }
+    function SignOut() {
+    $.ajax({
+    type: "POST",
+    url: '/authentication/signout',
+    data: {
+    },
+    success: function (result) {
+    localStorage.timerValue = null;
+    window.location.href = "/authentication/Login";
+    },
+    error: function () {
+    }
+    });
+    }
+    function ChangePassword() {
+    $("#CurrentPassword").val("");
+    $("#NewPassword").val("");
+    $("#ConfirmPassword").val("");
+    $(".changePasswordModal").modal("show");
+    }
+    $(".WMenu").click(function () {
+    showLoader();
+    });
+    function ChangeUserPassword() {
+    if (changePasswordValidation()) {
+    $.ajax({
+    type: "POST",
+    url: '/Authentication/ChangeUserPassword',
+    data: {
+    CurrentPassword: $("#CurrentPassword").val(),
+    NewPassword: $("#NewPassword").val(),
+    ConfirmPassword: $("#ConfirmPassword").val()
+    },
+    success: function (result) {
+    if (result === "PolicyInvalid") {
+    $.notify("Password doesn't adhere policy", "error");
+    $(".passwordPolicyDiv").toggle();
+    }
+    if (result === "InvalidPassword") {
+    errorNotify("CurrentPassword", "Please enter correct password");
+    }
+    else if (result == "0") {
+    $.notify("Password changed successfully", "success");
+    $(".changePasswordModal").modal("hide");
+    }
+    },
+    error: function () {
+    }
+    });
+    }
+    }
+    function changePasswordValidation() {
+    var submitFlag = true;
+    if ($("#CurrentPassword").val() == "") {
+    errorNotify("CurrentPassword", error["CurrentPassword"]);
+    submitFlag = false;
+    }
+    if ($("#NewPassword").val() == "") {
+    errorNotify("NewPassword", error["NewPassword"]);
+    submitFlag = false;
+    }
+    if ($("#ConfirmPassword").val() == "") {
+    errorNotify("ConfirmPassword", error["ConfirmPassword"]);
+    submitFlag = false;
+    }
+    if ($("#NewPassword").val() != $("#ConfirmPassword").val()) {
+    errorNotify("ConfirmPassword", error["SamePassword"]);
+    errorNotify("NewPassword", error["SamePassword"]);
+    submitFlag = false;
+    }
+    return submitFlag;
+    }
+    </script>
+</body>
+</html>

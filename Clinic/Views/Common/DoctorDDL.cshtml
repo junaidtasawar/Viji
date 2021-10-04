@@ -1,0 +1,55 @@
+﻿<input id="DoctorAutocomplete" class="form-control" placeholder="providers">
+<script src="~/assets/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#DoctorAutocomplete").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/common/GetDoctors",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        term: extractLast($("#DoctorAutocomplete").val()) //
+                    },
+                    success: function (data) {
+                        response($.map(data.rows, function (item) {
+                            return { label: item.cell, value: item.cell, id: item.i };
+                        }))
+                    }
+                })
+            },
+            minLength: 0,
+            minChars: 0,
+            max: 12,
+            autoFill: true,
+            mustMatch: true,
+            matchContains: false,
+            scrollHeight: 220,
+            select: function (event, ui) {
+                var terms = split(this.value);
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push(ui.item.value);
+                // add placeholder to get the comma-and-space at the end
+                terms.push("");
+                this.value = terms.join(", ");
+                return false;
+            },
+            search: function () {
+            },
+            response: function () {
+            }
+        }).on('focus', function (event) {
+            var self = this;
+            $(self).autocomplete("search", "");;
+        });
+        function split(val) {
+            return val.split(/,\s*/);
+        }
+        function extractLast(term) {
+            return split(term).pop();
+        }
+    });
+</script>
+

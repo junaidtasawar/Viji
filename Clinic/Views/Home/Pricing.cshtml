@@ -1,0 +1,178 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<style>
+    .column {
+        float: left;
+        width: 25%;
+        padding: 0 10px;
+    }
+    /* Remove extra left and right margins, due to padding */
+    .row {
+        margin: 0 -5px;
+    }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    /* Style the counter cards */
+    .card {
+        box-shadow: 0 7px 14px 0 rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        text-align: center;
+        background-color: #f1f1f1;
+        height: 415px;
+        background-color: white;
+    }
+
+    #usd {
+        margin-left: 100px;
+        margin-top: -45px;
+    }
+
+    #month {
+        margin-left: 100px;
+        margin-top: -28px;
+    }
+
+    .button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        width: 270px;
+        height: 27px;
+    }
+
+    .button3 {
+        border-radius: 8px;
+    }
+
+    #price {
+        font-weight: 600;
+        font-size: 46px;
+        margin-left: 144px;
+    }
+
+    .searchBox {
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%,50%);
+        background: grey;
+        height: 40px;
+        width: 24%;
+        border-radius: 50px;
+        padding: 10px;
+        height: 66px;
+        width: 26%;
+        background-color: #EBEBEB;
+        margin-left: -180px;
+    }
+
+
+    .card {
+        display: table;
+        margin: auto;
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .column {
+        padding-left: 151px;
+        margin-top: 40px;
+    }
+</style>
+<body>
+    <!-- <div class="searchBox">
+        <form action="/search?">
+           <input class="searchInput" type="search" name="q" placeholder="Search" style="background-color: #EBEBEB;margin-left: 48px;">
+           <button class="searchButton" type="submit">
+           <i class="material-icons">
+           search
+           </i>
+           </button>
+        </form>
+        </div><br><br><br><br><br><br> -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- <div class="navbar-header">
+              <a class="navbar-brand" href="#">WebSiteName</a>
+            </div> -->
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Dashboard</a></li>
+                <li><a href="#">Medicine</a></li>
+                <li><a href="#">Components</a></li>
+                <li><a href="#">Icons</a></li>
+                <li><a href="#">Tables</a></li>
+                <li><a href="#">Icons</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1 id="price">Pricing</h1>
+
+    <div class="row">
+        <div class="column">
+            <div class="card">
+                <h3>Personal</h3>
+                <h1 style="font-weight: 600;color:black">39</h1><h4 id="usd">USD</h4>&nbsp;&nbsp;<h5 id="month">month</h5>
+                <p>1GB Disk Space</p>
+                <p>10GB Monthly Bandwith</p>
+                <p>2 Email Accounts</p>
+                <p>Unlimited Subdomains</p>
+                <p>Free support</p>
+                <button class="button button3" style="background-color: #b7ce63;"><p style="margin-top: -9px;color: black;font-weight: 600;">Purchase Now</p></button>
+            </div>
+        </div>
+
+
+        <div class="column">
+            <div class="card">
+                <h3>Developers</h3>
+                <h1 style="font-weight: 600;color:blue"> 59</h1><h4 id="usd">USD</h4>&nbsp;&nbsp;<h5 id="month">month</h5>
+                <p>1GB Disk Space</p>
+                <p>10GB Monthly Bandwith</p>
+                <p>2 Email Accounts</p>
+                <p>Unlimited Subdomains</p>
+                <p>Free support</p>
+                <button class="button button3" style="background-color: #336cfb"><p style="margin-top: -9px;font-weight: 600;">Purchase Now</p></button>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="card">
+                <h3>Premium</h3>
+                <h1 style="font-weight: 600;color:black"> 99</h1><h4 id="usd">USD</h4>&nbsp;&nbsp;<h5 id="month">month</h5>
+                <p>1GB Disk Space</p>
+                <p>10GB Monthly Bandwith</p>
+                <p>2 Email Accounts</p>
+                <p>Unlimited Subdomains</p>
+                <p>Free support</p>
+                <button class="button button3" style="background-color: #b7ce63;"><p style="margin-top: -9px; color: black;font-weight: 600;">Purchase Now</p></button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,538 @@
+﻿@model ClinicBO.CCMNoteModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<link href="~/Content/themes/base/minified/CustomStyleSheet.css" rel="stylesheet" />
+<div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
+
+<div class="main-content-wrap">
+    <header class="page-header">
+        <h3 class="page-title">RPM Note</h3>
+    </header>
+
+    <div class="page-content">
+        <div class="card mb-0">
+            <div class="card-body">
+                <form class="needs-validation" novalidate id="CCMNoteFormID" method="post" action="/CCM/SaveCCMDetails">
+                    @Html.HiddenFor(model => model.CCMNoteID)
+                    @Html.HiddenFor(model => model.HdnCCMNoteDescription)
+                    @Html.HiddenFor(model => model.CallLogId)
+                    <input id="PatientID" type="hidden" value="@Model.PatientID" />
+
+                    @Html.HiddenFor(model => model.WellnessCallStatus)
+
+                    @*<div class="row">
+                        <div class="col-md-12">*@
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <div class="form-group text-center" style="color:red" id="divShowTimer">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-group text-right">
+                                <button type="button" class="btn btn-primary" onclick="AddNewCCMNote();">Add Blank Note</button>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-group text-right">
+                                <button type="button" class="btn btn-primary" onclick="AddNewNoteForm();">Add New Note</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Patient Name</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                                <input type="text" id="txtPatientName" class="form-control" readonly />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Patient Status</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                                @{ Html.RenderAction("PatientStatusDDL", "common"); }
+                                @Html.HiddenFor(model => model.PatientStatus)
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-1">
+                            <button type="button" onclick="callCustomer(@Model.CellNumber)">
+                                <img src="~/Content/Image/acceptcall.png" />
+                            </button>
+                        </div>
+
+                        <div class="col-12 col-md-1">
+                            <button type="button" onclick="hangUp()">
+                                <img src="~/Content/Image/endcall.png" />
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <strong>Status: </strong>
+                            <span id="call-status">
+                                Connecting to Call..
+                            </span>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <strong>Mobile No: </strong>
+                            <span id="call-status">
+                                <label id="lblMobileNo"></label>
+                            </span>
+                        </div>
+                    </div>
+                    <div id="CCMNoteDiv">
+                        @Html.Action("CCMNote")
+                    </div>
+                    <div class="row" id="CCMNoteDescriptionDiv">
+                        <input type="hidden" id="HdnDescription" />
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-2">
+                            <div class="form-group with-prefix-icon">
+                                <div class="prefix-icon icofont-ui-calendar"></div>
+                                <input type="text" class="form-control text-right" id="CCMdatepicker" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-group with-prefix-icon">
+                                <div class="prefix-icon icofont-clock-time"></div>
+                                <input type="text" id="CCMTimepicker" class="form-control" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-1">
+                            <div class="form-group">
+                                <label>Min Spent:</label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="inputTimeSpent" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="chkManualTime" name="chkManualTime" onclick="manualInput();" class="checkbox_check1" value="" @(Model.IsManualInputTime ? "checked=\"checked\"" : "")>
+                                        Is Manual Time
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="manualInputTimeSpent" readonly>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-1">
+                            <div class="checkbox">
+                                <label>
+                                    @if (Model != null)
+                                    {
+                                        <input type="checkbox" id="chkBillable" name="chkBillable" class="checkbox_check" value="" @(Model.IsBillable ? "checked=\"checked\"" : "")>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" id="chkBillable" name="chkBillable" class="checkbox_check">
+                                    }
+                                    Billable
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-right">
+                            <button type="button" onclick="SaveCCMNotesDetails()" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                    @*</div>
+                        </div>*@
+                </form>
+                <div id="CCMNoteGrid">
+                    <br />
+                    @Html.Action("CCMNoteGrid")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="AddNewNoteModel" class="modal">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add RPM Note</h5>
+            </div>
+            <div class="modal-body" id="AddNewNoteFormDiv">
+                @Html.Action("AddNewNoteForm")
+            </div>
+            <div class="modal-footer d-block">
+                <div class="actions justify-content-between">
+                    <button type="button" class="btn btn-error" onclick="ResetAddNewNoteDetails();">Reset</button>
+                    <button type="button" class="btn btn-success" onclick="SaveAddNewNoteDetails();">Add Note</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/assets/js/jquery-3.3.1.min.js"></script>
+<script src="~/assets/js/jquery-migrate-1.4.1.min.js"></script>
+<script src="~/assets/js/popper.min.js"></script>
+<script src="~/assets/js/bootstrap.min.js"></script>
+<script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+<script src="~/Scripts/Validation/validation.js"></script>
+<script src="~/Scripts/utility/error.js"></script>
+<script src="~/Scripts/utility/common.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
+<script src="~/plugins/notification/notify.js"></script>
+@*<script  src="//sdk.twilio.com/js/client/releases/1.10.1/twilio.js"></script>*@
+
+<script src="https://momentjs.com/downloads/moment.js"></script>
+
+<script src="~/Scripts/BrowserCalls/browser-calls.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        applyTriggerNotify();
+        $("#divShowTimer").hide();
+        window.value = 100;
+        setDateTimePicker();
+    });
+
+    if (window.performance) {
+        console.info("window.performance works fine on this browser");
+    }
+    console.info(performance.navigation.type);
+    debugger;
+    if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+        console.info("This page is reloaded");
+    } else if (document.referrer.includes("Patient/PatientIndividualProfile?PatientID=")) {
+        console.info("Coming from PatientIndividualProfile");
+    } else {
+        localStorage.timerValue = "null";
+    }
+
+    function setDateTimePicker() {
+        var date = new Date();
+        var formattedDate = ('0' + date.getDate()).slice(-2);
+        var formattedMonth = ('0' + (date.getMonth() + 1)).slice(-2);
+        var formattedYear = date.getFullYear().toString().substr(2, 2);
+
+        // Combine and format date string
+        var dateString = formattedMonth + '/' + formattedDate + '/' + formattedYear;
+
+        $('#CCMdatepicker').val(dateString);
+
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        $("#manualInputTimeSpent").val("00:00:00");
+        $("#CCMTimepicker").val(strTime);
+    }
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    function manualInput() {
+        $('#manualInputTimeSpent').prop('readonly', false);
+    }
+
+    var patientStatus = getParameterByName('Status');
+    if (patientStatus != null) {
+        $("#PatientStatus").val(patientStatus);
+        $("#PatientStatusDDL").val(patientStatus);
+    }
+    var wellnesscallStatus = getParameterByName('WellnessStatus');
+    if (wellnesscallStatus != null) {
+        $("#WellnessCallStatus").val(wellnesscallStatus);
+    }
+    $("#manualInputTimeSpent").val("00:00:00");
+    var seconds = 0, minutes = 0, hours = 0, t;
+    var patientname = getParameterByName('Name');
+    var mobileNo = getParameterByName('MobileNumber');
+    $("#lblMobileNo").text(mobileNo);
+    $("#txtPatientName").val(patientname);
+    //---------------------------------------shabahat---------------------------------------------------------
+    //var Timespent = localStorage.timerValue;
+    //var times = Timespent.split(":");
+    //var seconds = times[2].replace(/^0+/, ''), minutes = times[1].replace(/^0+/, ''), hours = times[0].replace(/^0+/, ''), t;
+    //console.log($("#PatientID").val());
+    function add() {
+        if (localStorage.timerValue != "null") {
+            if (localStorage.timerValue !== 'undefined')
+                var times = localStorage.timerValue.split(":");
+            seconds = times[2].replace(/^0+/, ''), minutes = times[1].replace(/^0+/, ''), hours = times[0].replace(/^0+/, ''), t;
+        }
+
+        seconds++;
+        if (seconds >= 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes >= 60) {
+                minutes = 0;
+                hours++;
+            }
+        }
+
+        $("#inputTimeSpent").val((hours ? (hours > 9 ? hours : "0" + hours) : "00") + ":" + (minutes ? (minutes > 9 ? minutes : "0" + minutes) : "00") + ":" + (seconds > 9 ? seconds : "0" + seconds));
+        localStorage.timerValue = $("#inputTimeSpent").val();
+        if ($("#inputTimeSpent").val() > "00:17:00" && $("#inputTimeSpent").val() < "00:20:00") {
+            var msg = "You are 3 minutes short of making this patient billable. " + $("#inputTimeSpent").val();
+            $("#divShowTimer").text(msg);
+            $("#divShowTimer").show();
+        } else {
+            $("#divShowTimer").text('');
+            $("#divShowTimer").hide();
+        }
+        timer();
+    }
+
+    function timer() {
+        t = setTimeout(add, 1000);
+    }
+
+    timer();
+    //------------------------------shabahat(uncomment)----------------------------------------------------
+
+
+    function GetParameterValues(param) {
+        var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < url.length; i++) {
+            var urlparam = url[i].split('=');
+            if (urlparam[0] == param) {
+                return urlparam[1];
+            }
+        }
+    }
+
+    function OnPatientStatusChange() {
+        $("#PatientStatus").val($("#PatientStatusDDL").val());
+    }
+
+    $('#CCMdatepicker').datepicker({
+        autoclose: true
+    });
+
+    function AddNewCCMNote() {
+        window.value = parseInt(window.value) + 1;
+        var noteBlankID = window.value;
+        var divelement = "<div class='col-md-12' id='CCMDescriptionBlank" + noteBlankID + "'><br /><textarea class='form-control' id = 'DescriptionBlank" + noteBlankID + "'  rows = '5' ></textarea > <br /> <button type='button' id='btn" + noteBlankID + "' onclick='deleteCCMNoteDescriptionBlank(" + noteBlankID + ")' style='position: absolute;bottom:28px;right:25px;' class='btn pull-right'><i class='icon sli-trash'></i></button></div>";
+        $("#CCMNoteDescriptionDiv").append(divelement);
+    }
+
+    function getCCMDescriptionBlankNote() {
+        for (var i = 101; i < 200; i++) {
+            var deletetext = $('#DescriptionBlank' + i).val();
+            if (typeof (deletetext) != "undefined")
+                $("#HdnDescription").val($("#HdnDescription").val() + ', ' + deletetext);
+        }
+    }
+
+    function getCCMDescriptionNote() {
+
+        $("#HdnDescription").val('');
+        for (var j = 10000; j < 20000; j++) {
+            var deletetext = $('#Description' + j).val();
+            if (typeof (deletetext) != "undefined")
+                $("#HdnDescription").val($("#HdnDescription").val() + ', ' + deletetext);
+        }
+
+        for (var i = 1; i < 200; i++) {
+            var deletetext = $('#Description' + i).val();
+            if (typeof (deletetext) != "undefined")
+                $("#HdnDescription").val($("#HdnDescription").val() + ', ' + deletetext);
+        }
+    }
+
+    function SaveCCMNotesDetails() {
+
+        getCCMDescriptionNote();
+        getCCMDescriptionBlankNote();
+        var datepicker = $("#CCMdatepicker").val();
+        var timepicker = $("#CCMTimepicker").val();
+        var HdnDescription = $("#HdnDescription").val();
+        var CCMNoteID = $("#CCMNoteID").val();
+        var PatientId = GetParameterValues('PatientId');
+        var PatientStatus = $("#PatientStatus").val();
+        var WellnessStatus = $("#WellnessCallStatus").val();
+        var callLogId = $("#CallLogId").val();
+        var IsBillable, inputTimeSpent;
+        var IsInitiatinVisit;
+
+        if ($('input.checkbox_check').is(':checked')) {
+            IsBillable = true;
+        } else {
+            IsBillable = false;
+        }
+
+        if ($('input.checkbox_check1').is(':checked')) {
+            inputTimeSpent = $("#manualInputTimeSpent").val();
+        } else {
+            inputTimeSpent = $("#inputTimeSpent").val();
+        }
+
+        if (datepicker == "") {
+            $.notify("Please enter date", "error");
+        } else if (timepicker == "") {
+            $.notify("Please enter time", "error");
+        } else if (inputTimeSpent == "") {
+            $.notify("Please enter Min Spent", "error");
+            //} else if (!validInputTime(inputTimeSpent)) {
+            //    $.notify("Please enter time spent in correct format '00: 00: 00' ", "error");
+        } else {
+            $.ajax({
+                url: '/CCM/SaveCCMDetails',
+                type: 'POST',
+                data: {
+                    'CCMNoteID': CCMNoteID, 'PatientId': PatientId, 'datepicker': datepicker, 'timepicker': timepicker, 'inputTimeSpent': inputTimeSpent, 'HdnDescription': HdnDescription, 'IsBillable': IsBillable, 'PatientStatus': PatientStatus, 'WellnessStatus': WellnessStatus, 'callLogId': callLogId
+                },
+                cache: false,
+                async: false,
+                success: function (data) {
+                    window.location.href = "/Home/RPMDashboard";
+                }
+            });
+        }
+    }
+
+    var rg = /^(2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$/
+
+    function validInputTime(value) {
+        if (rg.test(value)) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    function SaveAddNewNoteDetails() {
+        if ($("#CCMNoteText").val() == "") {
+            $.notify("Please enter ccm title", "error");
+        } else {
+            if ($("#CCMNoteDescrption").val() == "") {
+                $.notify("Please enter ccm description", "error");
+            } else {
+                $("#AddNewNoteFormID").submit();
+            }
+        }
+    }
+
+    if ($("#HdnCCMNoteDescription").val() != '') {
+        var CCMDynamicID = 10000;
+        $("#HdnDescription").val('');
+        var description = $("#HdnCCMNoteDescription").val();
+        var array = description.split(',');
+        for (var i = 0; i < array.length; i++) {
+            $("#HdnDescription").val($("#HdnDescription").val() + ',' + array[i]);
+            CCMDynamicID = parseInt(CCMDynamicID) + parseInt(1);
+            var divelement = "<div class='col-md-12' id='CCMEditDescription" + CCMDynamicID + "'><br /><textarea class='form-control' id='Description" + CCMDynamicID + "'  rows='5'>" + array[i] + "</textarea><br /><button type='button' style='position: absolute;bottom:28px;right:25px;' onclick='deleteEditCCMNoteDescription(" + CCMDynamicID + ")' class='btn text-right'><i class='icon sli-trash'></i></button></div>";
+            $("#CCMNoteDescriptionDiv").append(divelement);
+        }
+        $("#HdnCCMNoteDescription").val('');
+    }
+
+    function getCCMNoteDescription(CCMNoteInfoId) {
+
+        document.getElementById(CCMNoteInfoId).style.backgroundColor = "#367fa9";
+        document.getElementById(CCMNoteInfoId).style.color = "#FFFFFF";
+
+        $.ajax({
+            url: '/CCM/GetCCMNoteInfoDescById',
+            type: "GET",
+            data: { 'CCMNoteInfoId': CCMNoteInfoId },
+            success: function (response) {
+
+                var duvelement = "<div class='col-md-12' id='CCMDescription" + CCMNoteInfoId + "'><br /><textarea class='form-control' id='Description" + CCMNoteInfoId + "'  rows='5'>" + response + "</textarea><br /><button type='button' onclick='deleteCCMNoteDescription(" + CCMNoteInfoId + ")' style='position: absolute;bottom:28px;right:25px;' class='btn text-right'><i class='icon sli-trash'></i></button></div>";
+                $("#CCMNoteDescriptionDiv").append(duvelement);
+            },
+            failure: function (response) {
+            },
+            error: function (response) {
+            }
+        });
+    }
+
+    function deleteCCMNoteDescriptionBlank(noteBlankID) {
+        var deleteddiv = '#CCMDescriptionBlank' + noteBlankID;
+        $('#DescriptionBlank' + noteBlankID).remove();
+        $('#btn' + noteBlankID).remove();
+        var hdntext = $("#HdnDescription").val();
+    }
+
+    function deleteCCMNoteDescription(CCMNoteID) {
+        document.getElementById(CCMNoteID).style.backgroundColor = "#D3D3D3";
+        document.getElementById(CCMNoteID).style.color = "#000000";
+        var deletediv = '#CCMDescription' + CCMNoteID;
+        var deletetext = $('#CCMDescription' + CCMNoteID).text();
+        $(deletediv).remove();
+    }
+
+    function deleteEditCCMNoteDescription(CCMDynamicID) {
+        var deletediv = '#CCMEditDescription' + CCMDynamicID;
+        var deletetext = $('#CCMEditDescription' + CCMDynamicID).text();
+        var removetext = deletetext.replace('Delete', '');
+        var hdntext = $("#HdnDescription").val();
+        var finalhdntext = hdntext.replace(',' + removetext, '');
+        $("#HdnDescription").val(finalhdntext);
+        $(deletediv).remove();
+    }
+
+    function AddNewNoteForm() {
+        $(':input').not(':button, :submit, :reset').val('');
+        $("#AddNewNoteModel").modal("show");
+    }
+
+    $("#AddNewNoteFormID").submit(function (e) {
+        showLoader();
+        var postData = $(this).serializeArray();
+        var formURL = $(this).attr("action");
+        $.ajax(
+            {
+                url: formURL,
+                type: "POST",
+                data: postData,
+                success: function (message, textStatus, jqXHR) {
+                    hideLoader();
+                    //$.notify("CCM note saved successfully", "success");
+                    //$(':input').not(':button, :submit, :reset, select').val('');
+                    $.ajax({
+                        url: '/CCM/CCMNote',
+                        type: "get",
+                        dataType: "html",
+                        success: function (result) {
+                            $("#divbtnGenerated").empty();
+                            $('#AddNewNoteModel').modal('hide');
+                            $("#divbtnGenerated").html(result);
+                            var patientname = getParameterByName('Name');
+                            $("#txtPatientName").val(patientname);
+                            setDateTimePicker();
+                        }
+                    });
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
+        e.preventDefault(); //STOP default action
+    });
+
+    function call() {
+    }
+</script>

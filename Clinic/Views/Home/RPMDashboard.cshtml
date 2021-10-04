@@ -1,0 +1,382 @@
+﻿﻿﻿@model Clinic.Models.PatientModel.PatientModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<link href="~/Content/themes/base/minified/CustomStyleSheet.css" rel="stylesheet" />
+
+<div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
+
+<div class="main-content-wrap">
+    <header class="page-header">
+        <h3 class="page-title">Critical Patients </h3>
+        @*<div class="text-right">
+                <button class="btn btn-primary" type="button" onclick="AddNewPatient();">New</button>
+            </div>*@
+    </header>
+    @Html.HiddenFor(Model => Model.ClinicName)
+
+    @*<div class="row">
+            <div class="col-12 col-sm-2">
+                <div class="form-group">
+                    <label class="control-label">Select Clinic</label>
+                </div>
+            </div>
+            <div class="col-12 col-sm-3">
+                <div class="form-group">
+                    @{ Html.RenderAction("PartialClinic", "common"); }
+                </div>
+            </div>
+            <div class="col-12 col-sm-3">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.SearchFirstName, new { @class = "form-control", placeholder = "First name" })
+                </div>
+            </div>
+            <div class="col-12 col-sm-3">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.SearchLastName, new { @class = "form-control", placeholder = "Last name" })
+                </div>
+            </div>
+            <div class="col-12 col-sm-1">
+                <div class="form-group text-right">
+                    <button class="btn btn-primary" type="button" onclick="SearchPatient();" title="Type to search">Search<i class="fa fa-fw fa-search"></i></button>
+                </div>
+            </div>
+        </div>*@
+
+    <div class="page-content">
+        <div class="card mb-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="rpmDashboardListGrid"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-11 text-right mt-2">
+                <input type="button" value="Critical Patient Report" id="btnCriticalReport" class="btn btn-primary" />
+            </div>
+            <div class="col-md-1 text-right mt-2">
+                <input type="button" value="Billing Report" id="btnBillingReport" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="ConfirmNoteModel" style="display: none">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="hdnpatientId" />
+                <input type="hidden" id="hdnPatientName" />
+                <input type="hidden" id="hdnTimeSpan" />
+                <input type="hidden" id="CellNumber" />
+                <input type="hidden" id="hdnStatus" />
+                <h4>Are you sure you want to create RPM notes? Auto timer will start as soon as you reach the screen</h4>
+            </div>
+            <div class="modal-footer d-block">
+                <div class="actions justify-content-between">
+                    <button type="button" class="btn btn-error" onclick="RemoveCCMNoteDetails();">No</button>
+                    <button type="button" class="btn btn-info" onclick="AddNewCCMNoteDetails();">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="WellConfirmNoteModel" style="display: none">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="hidden" id="hdnpatientId" />
+                <input type="hidden" id="hdnPatientName" />
+                <input type="hidden" id="hdnTimeSpan" />
+                <input type="hidden" id="CellNumber" />
+                <input type="hidden" id="hdnStatus" />
+                <input type="hidden" id="hdnWellnessStatus" />
+                <h4>Are you sure you want to attend wellness call?</h4>
+            </div>
+            <div class="modal-footer d-block">
+                <div class="actions justify-content-between">
+                    <button type="button" class="btn btn-error" onclick="RemoveWellnessModel();">No</button>
+                    <button type="button" class="btn btn-info" onclick="AddWellnessDetails();">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="~/plugins/gijgo/gijgo.css" rel="stylesheet" />
+<script src="~/plugins/gijgo/gijgo.js"></script>
+<script>
+    $(document).ready(function () {
+        getAllMessages();
+        $('[data-role="loading-text"]').hide();
+        $('[data-role="loading-cover"]').hide();
+
+
+    });
+
+</script>
+<script>
+    $(document).on('click', '#btnBillingReport', function () {
+        window.open('/Patient/DownloadExcelFile', '_blank');
+    });
+    $(document).on('click', '#btnCriticalReport', function () {
+        window.open('/Home/DownloadCriticalReadingReport', '_blank');
+    });
+</script>
+
+<script>
+
+
+
+
+
+        var nameRenderer = function (value, record, $cell, $displayEl) {
+
+            if (value == 'No Reading') {
+                $displayEl.css('color', 'red');
+            }
+            if (value == 'Pending') {
+                $cell.css('color', 'red');
+            }
+            if (value == 'Completed') {
+                $cell.css('color', 'green');
+            }
+
+            $displayEl.text(value);
+
+
+            function RemoveCCMNoteDetails() {
+                $("#ConfirmNoteModel").modal("hide");
+            }
+        }
+        function RemoveWellnessModel() {
+            $("#WellConfirmNoteModel").modal("hide");
+        }
+
+        function AddWellnessDetails() {
+            window.location.href = "/CCM/Index?PatientId=" + $('#hdnpatientId').val() + "&Name=" + $("#hdnPatientName").val() + "&MobileNumber=" + $("#CellNumber").val() + "&Status=" + $("#hdnStatus").val() + "&WellnessStatus=" + $("#hdnWellnessStatus").val();
+        }
+        function AddNewCCMNoteDetails() {
+            var timespan = $('#hdnTimeSpan').val();
+            if (timespan != '') {
+                window.location.href = "/Patient/PatientIndividualProfile?PatientID=" + $('#hdnpatientId').val() + "&TimeSpent=" + $("#hdnTimeSpan").val();
+            } else {
+                window.location.href = window.location.href = "/CCM/Index?PatientId=" + $('#hdnpatientId').val() + "&Name=" + $("#hdnPatientName").val() + "&MobileNumber=" + $("#CellNumber").val() + "&Status=" + $("#hdnStatus").val();
+            }
+        }
+        function PreviewPatientProfile(e) {
+            var patientId = e.data.record.PatientID;
+            var patientName = e.data.record.PatientName;
+            var cellnumber = e.data.record.MobileNumber;
+            var status = e.data.record.Status;
+            $('#CellNumber').val(cellnumber);
+            // window.location.href = "/Patient/PatientIndividualProfile?PatientID=" + e.data.record.PatientID;
+            $('#hdnpatientId').val(patientId);
+            $("#hdnPatientName").val(patientName);
+            $("#hdnStatus").val(status);
+            $("#ConfirmNoteModel").modal("show");
+        }
+
+        function setWellnessCallStatus(e) {
+            var patientId = e.data.record.PatientID;
+            var patientName = e.data.record.PatientName;
+            var cellnumber = e.data.record.MobileNumber;
+            var status = e.data.record.Status;
+            var wellnessstatus = e.data.record.WellNessCall;
+            if (wellnessstatus === 'Pending') {
+                $('#CellNumber').val(cellnumber);
+                $('#hdnpatientId').val(patientId);
+                $("#hdnPatientName").val(patientName);
+                $("#hdnStatus").val(status);
+                $("#WellConfirmNoteModel").modal("show");
+                $("#hdnWellnessStatus").val(wellnessstatus);
+            }
+        }
+   
+    function getAllMessages() {
+    //    //$("#rpmDashboardListGrid td").remove();
+    //    var $tr = $(this).closest('tr');
+
+    //    $.ajax({
+    //        url: '/Home/GetRPMReportDetails_ForList',
+    //        type: 'POST',
+    //        data: { status: null, page: 1, limit: 5 },
+    //        cache: false,
+    //        datatype: 'json',
+    //        success: function (data) {
+    //            //window.location.href = window.location.href;
+
+    //            $tr.find('td').fadeOut(1000, function () {
+    //                $tr.remove();
+    //            });
+
+    //            var rpmDashboardListGrid = $("#rpmDashboardListGrid").grid({
+    //        uiLibrary: "bootstrap",
+    //                responsive: true,
+    //                    autoLoad: true,
+
+    //        //dataSource: {
+    //        //    url: "/Home/GetRPMReportDetails_ForList", data: { status: null }
+    //        //},
+    //        //autoLoad: true,
+    //                //resizeCheckInterval: 2000,
+    //        columns: [
+    //            { field: "PatientID", hidden: true, title: "ID" },
+    //            { field: "PatientName", title: "Name" },
+    //            { field: "BPStr", title: "BP", renderer: nameRenderer },
+    //            { field: "GlucoseStr", title: "Glucose", renderer: nameRenderer },
+    //            { field: "MobileNumber", title: "Mobile Number" },
+    //            { field: "RPMInteractionTime", title: "RPM Interaction Time", renderer: nameRenderer },
+    //            { field: "RemainingBlockTime", title: "Remaining Block Time", renderer: nameRenderer },
+    //            { field: "MissedReadingDays", title: "Missed Reading Days", renderer: nameRenderer },
+    //            { field: "CreatedDateStr", title: "Created Date" },
+    //            { field: "Status", title: "Status", width: 250, hidden: true },
+    //            { field: "PatientID", title: "Note", width: 70, type: "icon", icon: "glyphicon-list-alt", tooltip: "Preview", events: { "click": PreviewPatientProfile } },
+    //            { field: 'WellNessCall', renderer: function (value, record) { return record.WellNessCall == 'Pending' ? '<u>' + value + '<u>' : value; }, renderer: nameRenderer, events: { "click": setWellnessCallStatus } }
+    //        ],
+    //                pager: { enable: true, limit: 5, sizes: [5, 10, 20, 50, 100] }
+
+
+    //            });
+    //     rpmDashboardListGrid.on('rowDataBound', function (e, $row, id, record) {
+    //        if (record.Status === 'Critical') {
+    //            $row.css('color', 'red');
+
+
+    //        }
+    //    });
+     
+    //    //        rpmDashboardListGrid.clear();
+    //    //rpmDashboardListGrid.reload();
+    //    //window.stop();
+
+    //    rpmDashboardListGrid.render(data);
+    //            //rpmDashboardListGrid.clear();
+    //            //rpmDashboardListGrid.reload();
+    //}
+    //    });
+
+        var rpmDashboardListGrid = $("#rpmDashboardListGrid").grid({
+            uiLibrary: "bootstrap",
+            responsive: true,
+            //dataSource: {
+            //    url: "/Home/GetRPMReportDetails_ForList", data: { status: null }
+            //},
+
+            dataSource: {
+                "url": "/Home/GetRPMReportDetails_ForList",
+                "type": "GET",
+                "datatype": "json",
+            },
+            autoLoad: false,
+            columns: [
+                { field: "PatientID", hidden: true, title: "ID" },
+                { field: "PatientName", title: "Name" },
+                { field: "BPStr", title: "BP", renderer: nameRenderer },
+                { field: "GlucoseStr", title: "Glucose", renderer: nameRenderer },
+                { field: "MobileNumber", title: "Mobile Number" },
+                { field: "RPMInteractionTime", title: "RPM Interaction Time", renderer: nameRenderer },
+                { field: "RemainingBlockTime", title: "Remaining Block Time", renderer: nameRenderer },
+                { field: "MissedReadingDays", title: "Missed Reading Days", renderer: nameRenderer },
+                { field: "CreatedDateStr", title: "Created Date" },
+                { field: "Status", title: "Status", width: 250, hidden: true },
+                { field: "PatientID", title: "Note", width: 70, type: "icon", icon: "glyphicon-list-alt", tooltip: "Preview", events: { "click": PreviewPatientProfile } },
+                { field: 'WellNessCall', renderer: function (value, record) { return record.WellNessCall == 'Pending' ? '<u>' + value + '<u>' : value; }, renderer: nameRenderer, events: { "click": setWellnessCallStatus } },
+                { field: "PatientID", title: "Reading Report", width: 70, type: "icon", icon: "glyphicon-download-alt", tooltip: "Reading Report", events: { "click": GetSingleReadingReport } }
+
+            ],
+            pager: { enable: true, limit: 10, sizes: [10, 20, 50, 100] }
+        });
+
+        rpmDashboardListGrid.on('rowDataBound', function (e, $row, id, record) {
+            if (record.Status === 'Critical  ') {
+                $row.css('color', 'red');
+            }
+        });
+        setInterval(function () {
+            //$('#rpmDashboardListGrid').DataTable().ajax.reload(null, false);
+            //$('#rpmDashboardListGrid').grid('destroy', true, true);
+
+            //getAllMessages();
+            //rpmDashboardListGrid.clear();
+            rpmDashboardListGrid.reload();
+            $('[data-role="loading-text"]').hide();
+            $('[data-role="loading-cover"]').hide();
+        }, 1000)
+    }
+
+    function handler() {
+
+        var rpmDashboardListGrid = $("#rpmDashboardListGrid").grid({
+            uiLibrary: "bootstrap",
+            responsive: true,
+            dataSource: {
+                url: "/Home/GetRPMReportDetails_ForList", data: { status: null }
+            },
+            autoLoad: true,
+            processing: false,
+            serverSide: true,
+            columns: [
+                { field: "PatientID", hidden: true, title: "ID" },
+                { field: "PatientName", title: "Name" },
+                { field: "BPStr", title: "BP", renderer: nameRenderer },
+                { field: "GlucoseStr", title: "Glucose", renderer: nameRenderer },
+                { field: "MobileNumber", title: "Mobile Number" },
+                { field: "RPMInteractionTime", title: "RPM Interaction Time", renderer: nameRenderer },
+                { field: "RemainingBlockTime", title: "Remaining Block Time", renderer: nameRenderer },
+                { field: "MissedReadingDays", title: "Missed Reading Days", renderer: nameRenderer },
+                { field: "CreatedDateStr", title: "Created Date" },
+                { field: "Status", title: "Status", width: 250, hidden: true },
+                { field: "PatientID", title: "Note", width: 70, type: "icon", icon: "glyphicon-list-alt", tooltip: "Preview", events: { "click": PreviewPatientProfile } },
+                { field: 'WellNessCall', renderer: function (value, record) { return record.WellNessCall == 'Pending' ? '<u>' + value + '<u>' : value; }, renderer: nameRenderer, events: { "click": setWellnessCallStatus } },
+                { field: "PatientID", title: "Reading Report", width: 70, type: "icon", icon: "glyphicon-download-alt", tooltip: "Reading Report", events: { "click": GetSingleReadingReport } }
+            ],
+            pager: { enable: true, limit: 10, sizes: [10, 20, 50, 100] }
+        });
+
+        rpmDashboardListGrid.on('rowDataBound', function (e, $row, id, record) {
+            if (record.Status === 'Critical  ') {
+                $row.css('color', 'red');
+            }
+        });
+    }
+
+    function setWellnessCallStatus(e) {
+        var patientId = e.data.record.PatientID;
+        var patientName = e.data.record.PatientName;
+        var cellnumber = e.data.record.MobileNumber;
+        var status = e.data.record.Status;
+        var wellnessstatus = e.data.record.WellNessCall;
+        if (wellnessstatus === 'Pending') {
+            $('#CellNumber').val(cellnumber);
+            $('#hdnpatientId').val(patientId);
+            $("#hdnPatientName").val(patientName);
+            $("#hdnStatus").val(status);
+            $("#WellConfirmNoteModel").modal("show");
+            $("#hdnWellnessStatus").val(wellnessstatus);
+        }
+    }
+
+    function RemoveCCMNoteDetails() {
+        $("#ConfirmNoteModel").modal("hide");
+    }
+
+    function RemoveWellnessModel() {
+        $("#WellConfirmNoteModel").modal("hide");
+    }
+
+    function AddWellnessDetails() {
+        window.location.href = "/CCM/Index?PatientId=" + $('#hdnpatientId').val() + "&Name=" + $("#hdnPatientName").val() + "&MobileNumber=" + $("#CellNumber").val() + "&Status=" + $("#hdnStatus").val() + "&WellnessStatus=" + $("#hdnWellnessStatus").val();
+    }
+
+    function GetSingleReadingReport(e) {
+        window.open('/Home/DownloadSingleReadingReport?PatientID=' + e.data.record.PatientID + "&Name=" + e.data.record.PatientName, '_blank');
+    }
+</script>

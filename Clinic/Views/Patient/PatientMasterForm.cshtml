@@ -1,0 +1,509 @@
+﻿﻿@model Clinic.Models.PatientModel.PatientModel
+
+<div class="box-header with-border">
+    <h3 class="box-title"></h3>
+</div>
+<form id="PatientFormID" action="/Patient/SavePatientDetails" method="post" class="needs-validation" novalidate>
+
+    @Html.HiddenFor(model => model.PatientID)
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.MRNNumber, new { @class = "form-control", placeholder = "MRN Number", autofocus = "autofocus", @tabindex = "1" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.DeviceID, new { @class = "form-control", placeholder = "Device Id", @tabindex = "2" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", placeholder = "First Name", @tabindex = "3" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.MiddleName, new { @class = "form-control", placeholder = "Middle Name", @tabindex = "4" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", placeholder = "Last Name", @tabindex = "5" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.DOB, new { @class = "form-control", placeholder = "Date of Birth", @tabindex = "6" })
+                @Html.HiddenFor(model => model.DOBStr)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("GenderDDL", "common"); }
+                @Html.HiddenFor(Model => Model.Gender)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("ClinicDDL", "common"); }
+                @Html.HiddenFor(Model => Model.ClinicName)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @*<label class="col-sm-2 control-label">Ethnicity</label>*@
+
+                @{ Html.RenderAction("EthnicityDDL", "common"); }
+                @Html.HiddenFor(Model => Model.Ethnicity)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("RacesDDL", "common"); }
+                @Html.HiddenFor(Model => Model.Races)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.PrimaryLanguage, new { @class = "form-control ", placeholder = "Primary Language", @tabindex = "7" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.SecondaryLanguage, new { @class = "form-control ", placeholder = "Secondary Language", @tabindex = "8" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextAreaFor(model => model.Address, new { @class = "form-control", placeholder = "Address", @tabindex = "9" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("CityDDL", "common"); }
+                @Html.HiddenFor(Model => Model.CityName)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("StateDDL", "common"); }
+                @Html.HiddenFor(Model => Model.StateName)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Zipcode, new { @class = "form-control onlyNumber", placeholder = "ZIP Code", @tabindex = "10" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("CountryDDL", "common"); }
+                @Html.HiddenFor(Model => Model.CountryName)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.HomePhone, new { @class = "form-control ", placeholder = "Home Phone", @tabindex = "11" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.WorkPhone, new { @class = "form-control ", placeholder = "Work Phone", @tabindex = "12" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.CellNumber, new { @class = "form-control onlyNumber", placeholder = "Cell Number", @tabindex = "13" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control ", placeholder = "Email", @tabindex = "14" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.DriverLicenseID, new { @class = "form-control ", placeholder = "Driver License ID", @tabindex = "15" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.DriverLicenseState, new { @class = "form-control ", placeholder = "Driver License ID", @tabindex = "16" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("MaritalStatusDDL", "common"); }
+                @Html.HiddenFor(Model => Model.MaritalStatus)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.SSN, new { @class = "form-control ", placeholder = "SSN", @tabindex = "17" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.GuardianName, new { @class = "form-control ", placeholder = "Guardian's Name", @tabindex = "18" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("StatusDDL", "common"); }
+                @Html.HiddenFor(Model => Model.StatusName)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("DoctorDDL", "common"); }
+                @Html.HiddenFor(Model => Model.DoctorsName)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", placeholder = "Comments", @tabindex = "18" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.PrimaryContactNumber, new { @class = "form-control ", placeholder = "Primary Contact Number", @tabindex = "19" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.AlternateContactNumber, new { @class = "form-control ", placeholder = "Secondary Contact Number", @tabindex = "20" })
+            </div>
+        </div>
+    </div>
+    <div class="box-header with-border">
+        <h3 class="box-title">RPM Note</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.DeviceReceivedDate, new { @class = "form-control", placeholder = "Device Received Date", @tabindex = "6" })
+                    @Html.HiddenFor(model => model.DeviceReceivedDateStr)
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.LowBPLimit, new { @class = "form-control", placeholder = "Low BP Limit", @tabindex = "25" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.HighBPLimit, new { @class = "form-control", placeholder = "High BP Limit", @tabindex = "26" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.LowGlucoseLimit, new { @class = "form-control", placeholder = "Low Glucose Limit", @tabindex = "27" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.HighGlucoseLimit, new { @class = "form-control", placeholder = "High Glucose Limit", @tabindex = "28" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-header with-border">
+        <h3 class="box-title">Emergency Contact 1</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.EmergencyName1, new { @class = "form-control ", placeholder = "Emergency Contact Name", @tabindex = "21" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.EmergencyRelationship1, new { @class = "form-control ", placeholder = "Emergency Contact Relationship", @tabindex = "22" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.EmergencyPhoneNo1, new { @class = "form-control ", placeholder = "Emergency Contact Phone Number", @tabindex = "23" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.CustomPatientID, new { @class = "form-control", placeholder = "Custom Patient ID", @tabindex = "24" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-header with-border">
+        <h3 class="box-title">Emergency Contact 2</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.EmergencyName2, new { @class = "form-control ", placeholder = "Emergency Contact Name", @tabindex = "24" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.EmergencyRelationship2, new { @class = "form-control ", placeholder = "Emergency Contact Relationship", @tabindex = "25" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.EmergencyPhoneNo2, new { @class = "form-control ", placeholder = "Emergency Contact Phone Number", @tabindex = "26" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="box-header with-border">
+        <h3 class="box-title">Insurance Info</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.insurance.Name, new { @class = "form-control ", placeholder = "Name", @tabindex = "27" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.insurance.PlanName, new { @class = "form-control ", placeholder = "Plan Name", @tabindex = "28" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.insurance.StartDate, new { @class = "form-control ", placeholder = "Start Date", @tabindex = "29" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.insurance.EndDate, new { @class = "form-control ", placeholder = "End Date", @tabindex = "30" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.insurance.MemberID, new { @class = "form-control ", placeholder = "Member id", @tabindex = "31" })
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.insurance.GroupID, new { @class = "form-control ", placeholder = "Group id", @tabindex = "32" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="box-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-success" onclick="SavePatientDetails();">Save</button>
+            <button type="button" class="btn btn-primary" onclick="ResetPatientDetails();">Reset</button>
+        </div>
+    </div>
+</form>
+<script src="~/plugins/jQuery/jquery-3.1.1.min.js"></script>
+<script src="//code.jquery.com/jquery-migrate-3.0.0.js"></script>
+<script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+<link href="~/Content/themes/base/minified/jquery-ui.css" rel="stylesheet" />
+<script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+<link href="~/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+<script src="~/Scripts/Validation/validation.js"></script>
+<script src="~/Scripts/utility/error.js"></script>
+<script src="~/Scripts/utility/common.js"></script>
+<script src="~/plugins/daterangepicker/moment.min.js"></script>
+<script src="~/plugins/jQueryUIFilter/jquery.uitablefilter.js"></script>
+<script src="~/plugins/notification/notify.js"></script>
+<script src="~/Scripts/utility/common.js"></script>
+<script src="~/Scripts/utility/error.js"></script>
+<script src="~/Scripts/Validation/validation.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        applyTriggerNotify();
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        var clinicname = getParameterByName('ClinicName');
+        if (clinicname == null) {
+            clinicname = sessionStorage.getItem("clinicname");
+        }
+
+
+        $('#DOB').datepicker({
+            autoclose: true
+        });
+
+        $('#insurance_StartDate').datepicker({
+            autoclose: true
+        });
+
+        $('#insurance_EndDate').datepicker({
+            autoclose: true
+        });
+
+        $('#DeviceReceivedDate').datepicker({
+            autoclose: true
+        });
+
+        $("#DOB").val($("#DOBStr").val());
+
+        $("#DeviceReceivedDate").val($("#DeviceReceivedDateStr").val());
+
+        if ($("#PatientID").val() != null && $("#PatientID").val() != "" && $("#PatientID").val() != "0") {
+            $("#UserHeader").text("Edit User Details");
+        }
+        else {
+            $("#UserHeader").text("New User");
+        }
+        if ($("#StateName").val() != null && $("#StateName").val() != "") {
+            $("#StateAutocomplete").val($("#StateName").val());
+        }
+        if ($("#CountryName").val() != null && $("#CountryName").val() != "") {
+            $("#CountryAutocomplete").val($("#CountryName").val());
+        }
+        if ($("#CityName").val() != null && $("#CityName").val() != "") {
+            $("#CityAutocomplete").val($("#CityName").val());
+        }
+        if ($("#ClinicName").val() != null && $("#ClinicName").val() !== "") {
+            $("#ClinicAutocomplete").val($("#ClinicName").val());
+        }
+        if ($("#Gender").val() != null && $("#Gender").val() != "") {
+            $("#GenderDDL").val($("#Gender").val());
+        }
+        if ($("#Races").val() != null && $("#Races").val() != "") {
+            $("#RacesDDL").val($("#Races").val());
+        }
+        if ($("#Ethnicity").val() != null && $("#Ethnicity").val() != "") {
+            $("#EthnicityDDL").val($("#Ethnicity").val());
+        }
+        if ($("#MaritalStatus").val() != null && $("#MaritalStatus").val() != "") {
+            $("#MaritalStatusDDL").val($("#MaritalStatus").val());
+        }
+        if ($("#StatusName").val() != null && $("#StatusName").val() != "") {
+            $("#StatusDDL").val($("#StatusName").val());
+        }
+        if ($("#DoctorsName").val() != null && $("#DoctorsName").val() != "") {
+            $("#DoctorAutocomplete").val($("#DoctorsName").val());
+        }
+    });
+
+    $("#PatientFormID").submit(function (e) {
+        showLoader();
+        $("#DeviceReceivedDateStr").val($("#DeviceReceivedDate").val());
+        $("#DOBStr").val($("#DOB").val());
+        $("#StateName").val($("#StateAutocomplete").val());
+        $("#CountryName").val($("#CountryAutocomplete").val());
+        $("#CityName").val($("#CityAutocomplete").val());
+        $("#Gender").val($("#GenderDDL").val());
+        $("#BloodGroup").val($("#BloodGroupDDL").val());
+        $("#ClinicName").val($("#ClinicAutocomplete").val());
+        $("#StatusName").val($("#StatusDDL").val());
+        $("#MaritalStatus").val($("#MaritalStatusDDL").val());
+        $("#DoctorsName").val($("#DoctorAutocomplete").val());
+        $("#Races").val($("#RacesDDL").val());
+        $("#Ethnicity").val($("#EthnicityDDL").val());
+        var postData = $(this).serializeArray();
+        var formURL = $(this).attr("action");
+        $.ajax(
+            {
+                url: formURL,
+                type: "POST",
+                data: postData,
+                success: function (message, textStatus, jqXHR) {
+                    hideLoader();
+                    setTimeout(function () {
+                        $(':input').not(':button, :submit, :reset, select').val('');
+                        $.notify("Patient details saved successfully", "success");
+                    }, 2000);
+                    window.location.href = "/Patient/Index";
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
+        e.preventDefault();
+    });
+
+    function SavePatientDetails() {
+
+        if ($("#FirstName").val() == "") {
+            $.notify("Please enter first name", "error");
+        } else if ($("#LastName").val() == "") {
+            $.notify("Please enter last name", "error");
+        } else if ($("#DOB").val() == "") {
+            $.notify("Please enter dob", "error");
+        } else if ($("#ClinicAutocomplete").val() == "") {
+            $.notify("Please enter clinic name", "error");
+        } else {
+            $("#PatientFormID").submit();
+        }
+        // else if ($("#GenderDDL").val() == "0") {
+        //    $.notify("Please select gender", "error");
+        //} else if ($("#Ethnicity").val() == "") {
+        //    $.notify("Please enter ethnicity", "error");
+        //} else if ($("#Races").val() == "") {
+        //    $.notify("Please enter races", "error");
+        //} else if ($("#PrimaryLanguage").val() == "") {
+        //    $.notify("Please enter primary language", "error");
+        //} else if ($("#Address").val() == "") {
+        //    $.notify("Please enter address", "error");
+        //} else if ($("#CityAutocomplete").val() == "") {
+        //    $.notify("Please enter city", "error");
+        //} else if ($("#StateAutocomplete").val() == "") {
+        //    $.notify("Please enter state", "error");
+        //} else if ($("#Zipcode").val() == "") {
+        //    $.notify("Please enter zip code", "error");
+        //} else if ($("#CountryAutocomplete").val() == "") {
+        //    $.notify("Please enter country", "error");
+        //} else if ($("#HomePhone").val() == "") {
+        //    $.notify("Please enter home number", "error");
+        //} else if ($("#DriverLicenseID").val() == "") {
+        //    $.notify("Please enter driver license id", "error");
+        //} else if ($("#DriverLicenseState").val() == "") {
+        //    $.notify("Please enter driver license state", "error");
+        //} else if ($("#DoctorAutocomplete").val() == "") {
+        //    $.notify("Please enter provider", "error");
+        //} else
+    }
+
+    function ResetPatientDetails() {
+        $(':input').not(':button, :submit, :reset, :select').val('');
+        $('select').val("0");
+    }
+    function OnGenderChange() {
+        $("#GenderID").val($("#GenderDDL").val());
+    }
+
+    function OnStatusChange() {
+        $("#StatusName").val($("#StatusDDL").val());
+    }
+
+    function onMaritalStatusChange() {
+        $("#MaritalStatus").val($("#MaritalStatusDDL").val());
+    }
+
+    function OnBloodGroupChange() {
+        $("#BloodGroup").val($("#BloodGroupDDL").val());
+    }
+
+    function OnEthnicityDDLChange() {
+        $("#Ethnicity").val($("#EthnicityDDL").val());
+    }
+
+    function OnRacesChange() {
+        $("#Races").val($("#RacesDDL").val());
+    }
+</script>
+<style type="text/css">
+    ul.ui-autocomplete {
+        z-index: 1100 !important;
+    }
+</style>

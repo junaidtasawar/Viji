@@ -1,0 +1,89 @@
+﻿﻿@model Clinic.Models.PatientModel.PatientModel
+    <form class="form-horizontal" id="AddDiagnosisFormID">
+        @Html.HiddenFor(model => model.PatientID)
+        @Html.HiddenFor(model => model.diagnosisModel.DiagnosisID)
+        <div class="form-group">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.diagnosisModel.DiagnosisName, new { @class = "form-control ", placeholder = "Diagnosis" })
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <select id="DiagnosisSNOMEDCTDDL" onchange="OnDiagnosisSNOMEDCTChange();" class="selectpicker">
+                            <option value="">SNOMED CT</option>
+                            <option value="ICD 10">ICD 10</option>
+                            <option value="CPT">CPT</option>
+                            <option value="G Code">G Code</option>
+                        </select>
+                        @Html.HiddenFor(Model => Model.diagnosisModel.SNOMEDCT)
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <select id="DiagnosisStatusDDL" onchange="OnDiagnosisStatusChange();" class="selectpicker">
+                            <option value="">Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
+                        @Html.HiddenFor(Model => Model.diagnosisModel.Status)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <select id="DiagnosisSourceDDL" onchange="OnDiagnosisSourceChange();" class="selectpicker">
+                            <option value="">Source</option>
+                            <option value="Patient Reported">Patient Reported</option>
+                            <option value="Practice Reported">Practice Reported</option>
+                            <option value="Transition of care / referral">Transition of care / referral</option>
+                        </select>
+                        @Html.HiddenFor(Model => Model.diagnosisModel.Source)
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.diagnosisModel.DiagnosisStartDate, new { @class = "form-control", placeholder = "Start Date" })
+                        @Html.HiddenFor(model => model.diagnosisModel.DiagnosisStartDateStr)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        @Html.TextBoxFor(model => model.diagnosisModel.DiagnosisEndDate, new { @class = "form-control", placeholder = "End Date" })
+                        @Html.HiddenFor(model => model.diagnosisModel.DiagnosisEndDateStr)
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <select id="OccurrenceDDL" onchange="OnOccurrenceChange();" class="selectpicker">
+                            <option value="">Select</option>
+                            <option value="Acute on Chronic">Acute on Chronic</option>
+                            <option value="Chronic/Recurrent">Chronic/Recurrent</option>
+                            <option value="Delayed Recurrences (> 12 Months)">Delayed Recurrences (> 12 Months)</option>
+                            <option value="Early Occurrences (< 2 Months)">Early Occurrences (< 2 Months)</option>
+                            <option value="Late Occurrences (2-12 MONTHS)">Late Occurrences (2-12 MONTHS)</option>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                        @Html.HiddenFor(Model => Model.diagnosisModel.Occurrence)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        @Html.TextAreaFor(model => model.diagnosisModel.Comment, new { @class = "form-control", placeholder = "Comment" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+<script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="~/js/AddDiagnosis.js"></script>
+

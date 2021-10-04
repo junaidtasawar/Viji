@@ -1,0 +1,88 @@
+﻿@model Clinic.Models.ReportModel.ReportModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+<link href="~/Content/themes/base/minified/CustomStyleSheet.css" rel="stylesheet" />
+
+<div class="app-loader"><i class="icofont-spinner-alt-4 rotate"></i></div>
+
+<div class="main-content-wrap">
+    <div class="row">
+        <header class="page-header">
+            <h3 class="page-title">Report List</h3>
+        </header>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-2">
+            <input type="button" name="btnExportLicensing" onclick="CCMReport()" value="CCM Note Report" id="btnCCMNoteReport" class="btn-primary" />
+        </div>
+        <div class="col-sm-2">
+            <input type="button" name="btnExportLicensing" onclick="BillingReport()" value="Billing Report" id="btnBillingReport" class="btn-primary" />
+        </div>
+    </div>
+</div>
+
+<div id="CCMNoteSearchDiv">
+    @*<div class="form-group">
+            <label for="" class="col-sm-1 control-label">From</label>
+            <div class="col-sm-2">
+
+            </div>
+            <label for="" class="col-sm-1 control-label">To</label>
+            <div class="col-sm-2">
+
+            </div>
+            <label for="" class="col-sm-1 control-label">Time Spent</label>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-2">
+
+            </div>
+            <div class="col-md-12">
+                <label for="" class="col-sm-1 control-label"> </label>
+            </div>
+        </div>*@
+
+    <div class="row">
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control", @placeholder = "From Date" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control", @placeholder = "To Date" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                @{ Html.RenderAction("CCMTimeSpanDDL", "common"); }
+                @Html.HiddenFor(Model => Model.CCMTimeSpan)
+            </div>
+        </div>
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                <input type="checkbox" id="chkBillable" name="chkBillable" class="checkbox_check"> Only Billable Notes
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-9">
+        <div class="form-group text-right">
+            <button type="button" id="btnSearch" class="btn btn-primary" onclick="searchPatientList();">Search</button>
+        </div>
+    </div>
+    <div class="page-content">
+        <div class="card mb-0">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="ccmReportGrid"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/Report.js"></script>

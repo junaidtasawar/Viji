@@ -1,0 +1,121 @@
+﻿﻿@model ClinicBO.UserModel
+
+<form id="UserRegistrationFormID" action="/user/SaveUserDetails" method="post" class="needs-validation" novalidate>
+    @Html.HiddenFor(Model => Model.UserID)
+    @Html.HiddenFor(Model => Model.IsActive)
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control ", placeholder = "First Name" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.MiddleName, new { @class = "form-control", placeholder = "Middle Name" })
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", placeholder = "Last Name" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("GenderDDL", "common"); }
+                @Html.HiddenFor(Model => Model.Gender)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.EmailID, new { @class = "form-control", placeholder = "Email" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.MobileNumber, new { @class = "form-control onlyNumber", placeholder = "Mobile Number" })
+            </div>
+        </div>
+
+
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextAreaFor(model => model.AddressLine, new { @class = "form-control", placeholder = "Address Line 1" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("CityDDL", "common"); }
+                @Html.HiddenFor(Model => Model.CityName)
+            </div>
+        </div>
+
+
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("StateDDL", "common"); }
+                @Html.HiddenFor(Model => Model.StateName)
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("CountryDDL", "common"); }
+                @Html.HiddenFor(Model => Model.CountryName)
+            </div>
+        </div>
+
+
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Pincode, new { @class = "form-control onlyNumber", placeholder = "Pin Code" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @{ Html.RenderAction("ClinicDDL", "common"); }
+                @Html.HiddenFor(Model => Model.ClinicName)
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Username, new { @class = "form-control", placeholder = "Username" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Password" })
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+
+            </div>
+        </div>
+    </div>
+    <div class="text-right">
+        <button type="button" class="btn btn-success" onclick="SaveUserDetails();">Save</button>
+        <button type="button" class="btn btn-primary" onclick="ResetUserDetails();">Reset</button>
+    </div>
+</form>
+@*<script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+    <link href="~/Content/themes/base/minified/jquery-ui.css" rel="stylesheet" />*@
+@*<script src="~/plugins/jQuery/jquery-3.1.1.min.js"></script>
+    <script src="/assets/js/jquery-migrate-1.4.1.min.js"></script>*@
+
+<script src="//code.jquery.com/jquery-migrate-3.0.0.js"></script>   @* autocomplate*@ 
+<script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+<link href="~/Content/themes/base/minified/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/Validation/validation.js"></script>
+<script src="~/Scripts/utility/error.js"></script>
+<script src="~/Scripts/utility/common.js"></script>
+@*<script src="~/plugins/daterangepicker/moment.min.js"></script>*@
+@*<script src="~/plugins/jQueryUIFilter/jquery.uitablefilter.js"></script>*@
+<script src="~/plugins/notification/notify.js"></script>
+<script src="~/js/UserMaster.js"></script>

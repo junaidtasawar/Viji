@@ -1,0 +1,142 @@
+﻿@model Clinic.Models.ReportModel.ReportModel
+
+@{
+    ViewBag.Title = "BillingReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Report
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Home/Index"><i class="fa fa-dashboard"></i>Home</a></li>
+        <li class="active"><a href="/Report/BillingReport">CCM Report</a></li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="" class="col-sm-1 control-label">From</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-1 control-label">To</label>
+                <div class="col-sm-2">
+                    @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control" })
+                </div>
+                <label for="" class="col-sm-1 control-label">Time Spent</label>
+                <div class="col-md-3">
+                    @{ Html.RenderAction("CCMTimeSpanDDL", "common"); }
+                    @Html.HiddenFor(Model => Model.CCMTimeSpan)
+                </div>
+                <div class="col-md-2">
+                    <input type="checkbox" id="chkBillable" name="chkBillable" class="checkbox_check"> Only Billable Notes
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="box-body">
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-primary btn-flat pull-right" onclick="generateBillingReport();">Search</button>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="box-body">
+            <table id="billingReportGrid"></table>
+        </div>
+        <div class="clearfix"></div>
+        <div class="box-body" id="Downloaddiv" style="display:none;">
+            <div class=" form-group">
+            <div class="col-md-12 pull-right">
+                <a href="javascript:void(0);" onclick="BillingReport()" class="btn btn-primary btn-flat pull-right">Download Report</a>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+<script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="~/plugins/gijgo/gijgo.js"></script>
+<script>
+    var IsBillable;
+    if ($('input.checkbox_check').is(':checked')) {
+        IsBillable = true;
+    } else {
+        IsBillable = false;
+    }
+
+    $(document).ready(function () {
+        applyTriggerNotify();
+        if ($("#CCMTimeSpan").val() != null && $("#CCMTimeSpan").val() != "") {
+            $("#CCMTimeSpanDDL").val($("#CCMTimeSpan").val());
+        } else {
+            $("#CCMTimeSpan").val("00");
+        }
+    });
+
+    function OnCCMTimeSpanChange() {
+        $("#CCMTimeSpan").val($("#CCMTimeSpanDDL").val());
+    }
+
+    $('#FromDate').datepicker({
+        autoclose: true
+    });
+
+    $('#ToDate').datepicker({
+        autoclose: true
+    });
+
+    function generateBillingReport() {
+
+        var IsBillable;
+        if ($('input.checkbox_check').is(':checked')) {
+            IsBillable = true;
+        } else {
+            IsBillable = false;
+        }
+
+        var billingReportGridData = $("#billingReportGrid").grid({
+            uiLibrary: "bootstrap",
+            responsive: true,
+            dataSource: {
+                url: "/Report/GetBillingReportList",
+                data: { searchString: "", FromDate: $("#FromDate").val(), ToDate: $("#ToDate").val(), CCMTimeSpan: $("#CCMTimeSpan").val(), IsBillable: IsBillable }
+            },
+            autoLoad: true,
+            columns: [
+                { field: "SerialNo", title: "Sr No.", width: 15 },
+                { field: "PatientID", title: "ID", width: 10 },
+                { field: "PatientName", title: "Patient Name", width: 50 },
+                { field: "MRNNumber", title: "MRN Number", width: 30 },
+                { field: "CCMNote", title: "Note", width: 100 },
+                { field: "TotalMinute", title: "SpentTime", width: 30 },
+                { field: "Diagnosis", title: "Diagnosis", width: 100 }
+            ],
+            pager: { enable: true, limit: 10, sizes: [10, 20, 50, 100] }
+        });
+
+        billingReportGridData.reload({ searchString: "", FromDate: $("#FromDate").val(), ToDate: $("#ToDate").val(), CCMTimeSpan: $("#CCMTimeSpan").val(), IsBillable: IsBillable });
+
+        $("#Downloaddiv").css("display", "block");
+    }
+
+    function BillingReport() {
+        $.ajax(
+                {
+                    url: '/Report/downloadIndividualBillingReportPDF',
+                    contentType: 'application/json; charset=utf-8',
+                    datatype: 'json',
+                    type: "GET",
+                    success: function (response) {
+                        if (response != "")
+                            window.location = window.location.href = "/Report/downloadIndividualBillingReportPDF";
+                        else
+                            $.notify("No records found.", "error");
+                    }
+                });
+    }
+</script>

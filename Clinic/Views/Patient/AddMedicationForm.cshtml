@@ -1,0 +1,233 @@
+﻿﻿@model Clinic.Models.PatientModel.PatientModel
+<style>
+    .table-condensed thead .picker-switch, .table-condensed thead .prev, .table-condensed thead .next {
+        visibility: visible !important;
+    }
+</style>
+<form id="AddNewMedicationFormID" action="/patient/SaveMedicationDetails" method="post">
+    @Html.HiddenFor(model => model.medicationModel.MedicationID)
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.Medication, new { @class = "form-control ", placeholder = "Medication" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.RxNorms, new { @class = "form-control", placeholder = "RxNorms" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.Diagnosis, new { @class = "form-control", placeholder = "Diagnosis" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-1">
+            <div class="form-group">
+                SIG
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <div class="form-group">
+                Dosase Count
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <div class="form-group">
+                Measure
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <div class="form-group">
+                Route
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <div class="form-group">
+                Frequency
+            </div>
+        </div>
+        <div class="col-12 col-sm-3">
+            <div class="form-group">
+                Instruction
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-1">
+            <div class="form-group">
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <div class="form-group">
+                <select id="DosaseCount" name=DosaseCount @*onchange="OnDosaseCount();"*@ size="12">
+                    <option value="1/2">1/2</option>
+                    <option value="1">1</option>
+                    <option value="1-2">1-2</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+                @Html.HiddenFor(model => model.medicationModel.DosaseCount)
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <div class="form-group">
+                <select id="Measure" name=Measure @*onchange="OnMeasure();"*@ size="12">
+                    <option value="tab">tab</option>
+                    <option value="Tbsp">Tbsp</option>
+                    <option value="tsp">tsp</option>
+                    <option value="Capsule">Capsule</option>
+                    <option value="Puff(s)">Puff(s)</option>
+                    <option value="Spray(s)">Spray(s)</option>
+                    <option value="mg">mg</option>
+                    <option value="Drop">Drop(s)</option>
+                    <option value="Box">Box</option>
+                    <option value="cc">cc</option>
+                    <option value="ml">ml</option>
+                    <option value="oz">oz</option>
+                    <option value="gm">gm</option>
+                </select>
+                @Html.HiddenFor(model => model.medicationModel.Measure)
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <div class="form-group">
+                <select id="Route" name=Route @*onchange="OnRoute();"*@ size="12">
+                    <option value="PO">PO</option>
+                    <option value="Inj">Inj</option>
+                    <option value="Inh">Inh</option>
+                    <option value="Subq">Subq</option>
+                    <option value="Otic">Otic</option>
+                    <option value="Topical">Topical</option>
+                    <option value="Oph">Oph</option>
+                    <option value="Sublingual">Sublingual</option>
+                    <option value="Vaginal">Vaginal</option>
+                </select>
+                @Html.HiddenFor(model => model.medicationModel.Route)
+            </div>
+        </div>
+        <div class="col-12 col-sm-2">
+            <select id="Frequency" name=Frequency @*onchange="OnFrequency();"*@ size="12">
+                <option value="BID">BID</option>
+                <option value="QID">QID</option>
+                <option value="TID">TID</option>
+                <option value="Q1">Q1</option>
+                <option value="Q2">Q2</option>
+                <option value="Q4">Q4</option>
+                <option value="Q6">Q6</option>
+                <option value="Q8">Q8</option>
+                <option value="Q12">Q12</option>
+                <option value="Q2-4">Q2-4</option>
+                <option value="Q4-6">Q4-6</option>
+                <option value="Q day">Q day</option>
+                <option value="Q wk">Q wk</option>
+                <option value="Q ac">Q ac</option>
+                <option value="Q ac/hs">Q ac/hs</option>
+                <option value="Q am">Q am</option>
+                <option value="Q hs">Q hs</option>
+                <option value="Q pm">Q pm</option>
+                <option value="Q month">Q month</option>
+                <option value="Q year">Q year</option>
+            </select>
+            @Html.HiddenFor(model => model.medicationModel.Frequency)
+        </div>
+        <div class="col-12 col-sm-3">
+            <select id="Instruction" name=Instruction @*onchange="OnInstruction();"*@ size="12">
+                <option value="PRN">PRN</option>
+                <option value="With Food">With Food</option>
+                <option value="Sparingly">Sparingly</option>
+                <option value="Liberally">Liberally</option>
+            </select>
+            @Html.HiddenFor(model => model.medicationModel.Instruction)
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.Quantity, new { @class = "form-control", placeholder = "Quantity" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.RefillAllowed, new { @class = "form-control", placeholder = "Refill Allowed" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.StartDate, new { @class = "form-control", placeholder = "Start Date" })
+                @Html.HiddenFor(model => model.medicationModel.MeidcationStartDateStr)
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.EndDate, new { @class = "form-control", placeholder = "End Date" })
+                @Html.HiddenFor(model => model.medicationModel.MeidcationEndDateStr)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <select id="MedicationSourceDDL" onchange="OnMedicationSourceChange();" class="selectpicker">
+                    <option value="">Source</option>
+                    <option value="Allergy History">Allergy History</option>
+                    <option value="e-Prescription History">e-Prescription History</option>
+                    <option value="Patient Reported">Patient Reported</option>
+                    <option value="Practice Reported">Practice Reported</option>
+                    <option value="Transition of Care/Referral">Transition of Care/Referral</option>
+                </select>
+                @Html.HiddenFor(Model => Model.medicationModel.Source)
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.OrderGeneratedBy, new { @class = "form-control", placeholder = "Order Generated By" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.medicationModel.Provider, new { @class = "form-control", placeholder = "Provider" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                <select id="MedicationStatusDDL" onchange="OnMedicationStatusChange();" class="selectpicker">
+                    <option value="">Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Cancelled">Cancelled</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Discontinued">Discontinued</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                @Html.HiddenFor(Model => Model.medicationModel.Status)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                @Html.TextAreaFor(model => model.medicationModel.Comments, new { @class = "form-control", placeholder = "Comment" })
+            </div>
+        </div>
+    </div>
+</form>
+<script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+<link href="~/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+<script src="~/js/AddMedication.js"></script>

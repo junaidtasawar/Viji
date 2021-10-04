@@ -1,0 +1,139 @@
+﻿@{
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+
+
+
+        var clinicname = getParameterByName('ClinicName');
+        if (clinicname != null) {
+            $("#PartialClinicDDL").val(clinicname);
+        } else {
+            clinicname = $("#PartialClinicDDL").val();
+        }
+        //Call EmpDetails jsonResult Method
+        $.getJSON("/Patient/GetAllPatientDetails_ForList/json",
+            {
+                clinicname: clinicname
+            },
+            function (json) {
+
+
+             
+                for (index = 0; index < json.records.length; index++) {
+                    var templateString = '<article class="card"><p>Name :- ' + json.records[index].FullName + '</p><p>Gender :-' + "Male" + '</p><button id="tes">Check</button></article>';
+                    $('#test12').append(templateString);
+                   
+                }
+                //$.each(mokData, function (i) {
+                //    var templateString = '<article class="card"><h2>' + mokData[i].category + '</h2><p>' + mokData[i].name + '</p><p>' + mokData[i].id + '</p><button id="tes">Start</button></article>';
+                //    $('#test12').append(templateString);
+                //})
+
+                //for (index = 0; index < json.records.length; index++) {
+
+                //    //$("#mytxt").append("<span> Full Name :- " + json.records[index].FullName) + "</span>");
+
+
+
+                //    //tr = $('<tr/>');
+                //    //tr.append("<div class='card rounded' style='border-radius: 20%'> Full Name :- " + json.records[index].FullName);
+                //    //tr.append("Gender :- " + json.records[index].GenderStr + "</div>");
+                //    //$('#mycard').append(tr);
+
+
+
+
+                //}
+
+            });
+    });
+
+
+
+</script>
+
+<style>
+    .cards {
+    margin: -1rem;
+}
+
+    .card {
+        width: 220px;
+        float: left;
+        margin: 1rem;
+        border: 7px solid grey;
+        padding: 20px;
+        border-radius: 5px;
+        background-color: white;
+    }
+
+    #tes {
+        background-color: white;
+        color: black;
+        border: 2px solid #e7e7e7;
+    }
+
+    #tes {
+        background-color: #e7e7e7; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        color: black;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<main class="cards">
+    <div id="test12"></div>
+</main>
+
+
+
+@*<style>
+        /*.table.table-striped tbody tr:nth-of-type(odd) {
+            background: none;
+            background-color: darkgray;*/
+            /* padding: 101px; */
+        /*}*/
+        table {
+            border-collapse: separate;
+            border-spacing: 0 40px;
+            border-collapse: separate;
+            border: solid black 1px;
+            border-radius: 6px;
+            -moz-border-radius: 6px;
+        }
+
+
+
+        .table.table-striped tbody tr:nth-of-type(odd) {
+            background: none;
+            outline: double;
+            outline-color: black;
+            border-radius: 6px;
+        }
+
+    </style>
+
+    <table class="table table-bordered table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+
+    </table>*@

@@ -1,0 +1,52 @@
+﻿﻿@model Clinic.Models.PatientModel.PatientModel
+<form id="AddAllergyFormID">
+    @Html.HiddenFor(model => model.allergyModel.AllergyID)
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @{ Html.RenderAction("AllergyTypeDDL", "common"); }
+                @Html.HiddenFor(Model => Model.allergyModel.Type)
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.allergyModel.Agent, new { @class = "form-control", placeholder = "Agent" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @{ Html.RenderAction("SNOMEDDDL", "common"); }
+                @Html.HiddenFor(Model => Model.allergyModel.SNOMED)
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.allergyModel.Reaction1, new { @class = "form-control", placeholder = "Reaction" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @{ Html.RenderAction("SeverityDDL", "common"); }
+                @Html.HiddenFor(Model => Model.allergyModel.Serverity)
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @{ Html.RenderAction("SourceDDL", "common"); }
+                @Html.HiddenFor(Model => Model.allergyModel.Source)
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @{ Html.RenderAction("AllergyStatusDDL", "common"); }
+                @Html.HiddenFor(Model => Model.allergyModel.Status)
+            </div>
+        </div>
+    </div>
+</form>

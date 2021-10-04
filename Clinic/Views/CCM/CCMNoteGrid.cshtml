@@ -1,0 +1,50 @@
+﻿@model ClinicBO.CCMNoteModel
+<link href="~/Content/themes/base/minified/CustomStyleSheet.css" rel="stylesheet" />
+<link href="~/plugins/gijgo/gijgo.css" rel="stylesheet" />
+<script src="~/plugins/gijgo/gijgo.js"></script>
+<div class="page-content">
+    <div class="card mb-0">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="CCMNoteListGrid"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function GetParameterValues(param) {
+        var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < url.length; i++) {
+            var urlparam = url[i].split('=');
+            if (urlparam[0] == param) {
+                return urlparam[1];
+            }
+        }
+    }
+    var PatientId = GetParameterValues('PatientId');
+    var CCMNoteListGrid = $("#CCMNoteListGrid").grid({
+        uiLibrary: "bootstrap",
+        responsive: true,
+        dataSource: {
+            url: "/CCM/GetCCMNoteByPatientID_ForList", data: { patientID: PatientId }
+        },
+        autoLoad: true,
+        columns: [
+            { field: "SerialNo", title: "Sr No", width: 20 },
+            { field: "CCMNoteID", title: "ID", hidden: true, width: 20 },
+            { field: "PatientID", title: "ID", hidden: true, width: 20 },
+            { field: "PatientName", title: "PatientName", hidden: true, width: 40 },
+            { field: "Description", title: "Description", width: 70 },
+            { field: "Timespent", title: "Timespent", width: 30 },
+            { field: "IsBillable", title: "Is Billable", width: 50 },
+            { field: "CCMNoteDate", title: "CCM Date", width: 80 },
+            { field: "CCMNoteID", title: "Edit", width: 20, type: "icon", icon: "glyphicon-pencil", tooltip: "Edit Note", events: { "click": UpdateCCMNoteDetails } },
+        ],
+        pager: { enable: true, limit: 10, sizes: [10, 20, 50, 100] }
+    });
+
+    function UpdateCCMNoteDetails(e) {
+        window.location.href = "/CCM/Index?PatientId=" + e.data.record.PatientID + "&Name=" + e.data.record.PatientName + "&TimeSpent=" + e.data.record.Timespent + "&CCMNoteID=" + e.data.record.CCMNoteID;
+    }
+</script>

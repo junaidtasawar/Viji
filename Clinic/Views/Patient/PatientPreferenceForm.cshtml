@@ -1,0 +1,207 @@
+﻿@model Clinic.Models.PatientModel.PatientPreferenceModel
+    <div class="page-content">
+        <div class="card">
+            <div class="card-body">
+                <form id="PatientPreference" action="/patient/SavePatientPreference" method="post" class="needs-validation" novalidate>
+                    @Html.HiddenFor(model => model.PatientID, new { @id = "PatientPreID" })
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+                            <div class="form-group">
+                            </div>
+                        </div>
+                    </div>
+                        <div class="row">
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    <label>Primary Care Physican</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(model => model.PrimaryCarePhysican, new { @class = "form-control", placeholder = "Primary Care Physican" })
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    <label class="control-label">Preferred Contact Method</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(model => model.PreferredContactMethod, new { @class = "form-control", placeholder = "Preferred Contact Method" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">HIPAA Notice Period<span class="red"> *</span></label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <select id="HIPAANoticePeriodDDL" onchange="OnHIPAANoticePeriodChange();" class="selectpicker">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                    @Html.HiddenFor(Model => Model.HIPAANoticePeriod)
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label"></label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">From Friend/Collegue</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(model => model.FromFriend, new { @class = "form-control " })
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Immunization Registry User<span class="red"> *</span></label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <select id="ImmunizationRegistryUserDDL" onchange="OnImmunizationRegistryUserChange();" class="selectpicker">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                    @Html.HiddenFor(Model => Model.ImmunizationRegistryUser)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Alternate Email Address</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(model => model.AlternateEmailAddress, new { @class = "form-control", placeholder = "Alternate Email Address" })
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Referred by Doctor</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(model => model.ReferredByDoctor, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">From Internet Search</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(model => model.FromInternet, new { @class = "form-control " })
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Immunication Sharing</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <select id="ImmunicationSharingDDL" onchange="OnImmunicationSharingChange();" class="selectpicker">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                    @Html.HiddenFor(Model => Model.ImmunicationSharing)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Other</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(model => model.Other, new { @class = "form-control " })
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <label class="control-label">Health Information Exchange</label>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-3">
+                                <div class="form-group">
+                                    <select id="HealthInformationExchangeDDL" onchange="OnHealthInformationExchangeChange();" class="selectpicker   ">
+                                        <option value="0">No</option>
+                                        <option value="1">Yes</option>
+                                    </select>
+                                    @Html.HiddenFor(Model => Model.HealthInformationExchange)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="text-right">
+                                <button type="button" class="btn btn-success" onclick="SavePreferenceDetails();">Save</button>
+                                <button type="button" class="btn btn-primary" onclick="ResetPreferenceDetails();">Reset</button>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#PatientID").val(patientID);
+    });
+
+    function SavePreferenceDetails() {
+        $("#PatientPreference").submit();
+    }
+
+    $("#PatientPreference").submit(function (e) {
+        showLoader();
+        var postData = $(this).serializeArray();
+        var formURL = $(this).attr("action");
+        $.ajax(
+            {
+                url: formURL,
+                type: "POST",
+                data: postData,
+                success: function (message, textStatus, jqXHR) {
+                    hideLoader();
+                    setTimeout(function () {
+                        $(':input').not(':button, :submit, :reset, select').val('');
+                        $.notify("Patient preference saved successfully", "success");
+                    }, 2000);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                }
+            });
+        e.preventDefault();
+    });
+</script>
+

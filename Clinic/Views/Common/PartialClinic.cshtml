@@ -1,0 +1,15 @@
+﻿@model ClinicBO.ClinicModel
+
+@using System.Data
+
+<select id="PartialClinicDDL" onchange="OnChangePartialClinicDDL()" class="form-control">
+    @if (Model.DT_Clinic != null)
+    {
+        foreach (DataRow row in Model.DT_Clinic.Rows)
+        {
+            <option value="@row["Name"]">
+                @row["Name"]
+            </option>
+        }
+    }
+</select>

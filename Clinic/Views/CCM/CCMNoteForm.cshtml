@@ -1,0 +1,96 @@
+﻿
+@model ClinicBO.CCMNoteModel
+
+<form class="" id="CCMNoteFormID" method="post" action="/CCM/SaveCCMDetails">
+    @Html.HiddenFor(model => model.CCMNoteID)
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header with-border">
+                        
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-2">
+                                    <label class="control-label">Patient Name</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="txtPatientName" class="form-control" readonly />
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">Patient Status</label>
+                                </div>
+                                <div class="col-md-3">
+                                    @{ Html.RenderAction("PatientStatusDDL", "common"); }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="CCMNoteDiv">
+                                @Html.Action("CCMNote")
+                            </div>
+                        </div>
+                        <div class="row" id="CCMNoteDescriptionDiv">
+                            <input type="hidden" id="HdnDescription" />
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="input-group date">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="CCMdatepicker" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <input type="text" id="CCMTimepicker" class="form-control timepicker" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                                <label>Min Spent:</label>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="inputTimeSpent">
+                            </div>
+                            <div class="col-md-1">
+                                <div class="checkbox">
+                                    <label>
+                                        @if (Model != null)
+                                        {
+                                            <input type="checkbox" id="chkBillable" name="chkBillable" class="checkbox_check" value="" @(Model.IsBillable ? "checked=\"checked\"" : "")>
+                                        }
+                                        else
+                                        {
+                                            <input type="checkbox" id="chkBillable" name="chkBillable" class="checkbox_check">
+                                        }
+                                        Billable
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button type="button" onclick="SaveCCMNotesDetails()" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script src="~/Scripts/Validation/validation.js"></script>
+<script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="~/assets/js/main.js"></script>

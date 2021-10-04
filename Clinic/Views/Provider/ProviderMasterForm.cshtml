@@ -1,0 +1,48 @@
+﻿@model ClinicBO.DoctorModel
+<form id="DoctorRegistrationFormID" action="/provider/SaveDoctorDetails" method="post" class="needs-validation" novalidate>
+    @Html.HiddenFor(Model => Model.DoctorID)
+    @Html.HiddenFor(Model => Model.IsActive)
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Name" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextAreaFor(model => model.Address, new { @class = "form-control", placeholder = "Address" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Specility, new { @class = "form-control", placeholder = "Specility" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.PhoneNo, new { @class = "form-control onlyNumber", placeholder = "Phone No" })
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.WebAddress, new { @class = "form-control", placeholder = "http://website.com" })
+            </div>
+        </div>
+    </div>
+    <div class="text-right">
+        <button class="btn btn-success" type="button" onclick="SaveDoctorDetails();">Save</button>
+        <button class="btn btn-primary" type="button" onclick="ResetDoctorDetails();">Reset</button>
+    </div>
+</form>
+<script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+<link href="~/Content/themes/base/minified/jquery-ui.css" rel="stylesheet" />
+<script src="~/plugins/notification/notify.js"></script>
+<script src="~/Scripts/utility/common.js"></script>
+<script src="~/Scripts/utility/error.js"></script>
+<script src="~/Scripts/Validation/validation.js"></script>
+<script src="~/js/DoctorMaster.js"></script>

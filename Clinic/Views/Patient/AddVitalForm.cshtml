@@ -1,0 +1,68 @@
+﻿﻿@model Clinic.Models.PatientModel.PatientModel
+<form id="AddVitalFormID">
+    @Html.HiddenFor(model => model.vitalModel.VitalID)
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.vitalModel.BloodSuger, new { @class = "form-control", placeholder = "Blood Sugar" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.vitalModel.BloodPressure, new { @class = "form-control", placeholder = "Blood Pressure" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.vitalModel.Respiration, new { @class = "form-control", placeholder = "Respiration" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.vitalModel.Temperature, new { @class = "form-control", placeholder = "Temperature" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.vitalModel.Pulse, new { @class = "form-control", placeholder = "Pulse" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.vitalModel.Pain, new { @class = "form-control", placeholder = "Pain" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.vitalModel.Height, new { @class = "form-control", placeholder = "Height" })
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group">
+                @Html.TextBoxFor(model => model.vitalModel.Weight, new { @class = "form-control", placeholder = "Weight" })
+            </div>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+      $(".only-numeric").bind("keypress", function (e) {
+          var keyCode = e.which ? e.which : e.keyCode
+
+          if (!(keyCode >= 48 && keyCode <= 57)) {
+            $(".error").css("display", "inline");
+            return false;
+          }
+          return true;
+      });
+    });
+
+</script>
+

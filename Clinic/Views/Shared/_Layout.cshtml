@@ -1,0 +1,303 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>dolfhin</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <script src="~/plugins/jQuery/jquery-3.1.1.min.js"></script>
+    <script src="~/plugins/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-3.0.0.js"></script>
+    <script src="~/plugins/jQueryUI/jquery-ui.min.js"></script>
+    <link href="~/Content/themes/base/minified/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/minified/jquery-ui.css" rel="stylesheet" />
+    <link href="~/plugins/gijgo/gijgo.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/minified/AdminLTE.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/minified/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/minified/ionicons.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/skins/_all-skins.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/hexdots.css" rel="stylesheet" />
+    @*<link href="~/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" />*@
+    <link href="~/plugins/daterangepicker/daterangepicker.css" rel="stylesheet" />
+    <link href="~/plugins/datepicker/datepicker3.css" rel="stylesheet" />
+    <link href="~/Content/css/Tag-it/tagit.ui-zendesk.css" rel="stylesheet" />
+    <link href="~/Content/css/Tag-it/jquery.tagit.css" rel="stylesheet" />
+    <link href="~/plugins/gijgo/gijgo.css" rel="stylesheet" />
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <a href="" class="logo">
+                <span class="logo-mini"></span>
+                <span class="logo-lg">dolfhin</span>
+            </a>
+            <nav class="navbar navbar-static-top">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="~/dist/img/user2-160x160.jpg" class="user-image" alt="User Image" />
+                                <span class="hidden-xs" id="UsernameDisplay"></span>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li class="user-header">
+                                    <img src="~/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                    <p>
+                                        <span id="UsernameDisplayDetails">
+                                        </span>
+                                    </p>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat" onclick="ChangePassword();">Change Password</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="#" class="btn btn-default btn-flat" onclick="SignOut()">Sign out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar">
+            <section class="sidebar">
+				<ul class="sidebar-menu" data-widget="tree">
+					<li class="treeview DashboardMM WMenu">
+						<a href="/home/Dashboard">
+							<i class="fa fa-dashboard"></i>
+							<span>Dashboard</span>
+						</a>
+					</li>
+					<li class="treeview ClinicMM WMenu">
+						<a href="/Clinic/Index">
+							<i class="fa fa-hospital-o"></i>
+							<span>Clinic</span>
+						</a>
+					</li>
+					<li class="treeview UserMM WMenu" id="UserDiv">
+						<a href="/User/Index">
+							<i class="fa fa-user"></i>
+							<span>User</span>
+						</a>
+					</li>
+					<li class="treeview PatientMM WMenu">
+						<a href="/Patient/Index">
+							<i class="fa fa-users"></i>
+							<span>Patient</span>
+						</a>
+					</li>
+					<li class="treeview DoctorMM WMenu">
+						<a href="/Provider/Index">
+							<i class="fa fa-user-md"></i>
+							<span>Provider</span>
+						</a>
+					</li>
+					<li class="treeview CcmReportMM WMenu">
+						<a href="/Report/PatientReport">
+							<i class="fa fa-user-md"></i>
+							<span>Reports</span>
+						</a>
+					</li>
+					<li class="treeview">
+						<a href="/SurveyReport/Index">
+							<i class="fa fa-user-md"></i>
+							<span>Survey Report</span>
+						</a>
+					</li>
+				</ul>
+            </section>
+        </aside>
+        <div class="spinner-preview modal-backdrop fade in" id="ApplicationLoader" style="display: none; opacity: 0.6!important;">
+            <div class="card">
+                <div class="hexdots-loader" style="position: absolute; top: 50%; left: 58%; margin-top: -50px; margin-left: -50px;">
+                    Loading...
+                </div>
+            </div>
+        </div>
+        <div class="content-wrapper" style="min-height: 800px;">
+            @RenderBody()
+        </div>
+        <footer class="main-footer">
+            <strong>Copyright &copy; 2018-2019</strong> All rights
+            reserved.
+        </footer>
+    </div>
+    @*<script src="~/dist/js/adminlte.min.js"></script>*@
+    <script src="~/Scripts/minified/moment.min.js"></script>
+    <script src="~/Scripts/Validation/validation.js"></script>
+    <script src="~/Scripts/utility/error.js"></script>
+    <script src="~/Scripts/utility/common.js"></script>
+    <script src="~/plugins/daterangepicker/moment.min.js"></script>
+    <script src="~/plugins/jQueryUIFilter/jquery.uitablefilter.js"></script>
+    <script src="~/plugins/notification/notify.js"></script>
+    <script src="~/plugins/datepicker/bootstrap-datepicker.js"></script>
+    <script src="~/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="~/Scripts/tag-it/tag-it.min.js"></script>
+    <script src="~/plugins/jQueryUIFilter/jquery.uitablefilter.js"></script>
+    @*<script src="~/plugins/datatables/jquery.dataTables.min.js"></script>*@
+    <script src="~/plugins/gijgo/gijgo.js"></script>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".sidebar-menu ul").removeClass("active");
+        $(".sidebar-menu li").removeClass("active");
+        @{ Clinic.Models.LoginModel.LoginModel user = (Clinic.Models.LoginModel.LoginModel)Session["User"]; }
+        @if (user != null)
+        {
+            ViewBag.UserName = user.FirstName + " " + user.LastName;
+        }
+
+        $("#UsernameDisplay").text('@ViewBag.UserName');
+        $("#UsernameDisplayDetails").text('@ViewBag.UserName');
+        var userid = @user.ID;
+        if(userid != 1){
+            $("#UserDiv").hide();
+        }
+    });
+
+
+    function SignOut() {
+        $.ajax({
+            type: "POST",
+            url: '/authentication/signout',
+            data: {
+            },
+            success: function (result) {
+                localStorage.timerValue = null;
+                window.location.href = "/authentication/login";
+            },
+            error: function () {
+            }
+        });
+    }
+
+    function ChangePassword() {
+        $("#CurrentPassword").val("");
+        $("#NewPassword").val("");
+        $("#ConfirmPassword").val("");
+        $(".changePasswordModal").modal("show");
+    }
+
+    $(".WMenu").click(function () {
+        showLoader();
+    });
+
+    function ChangeUserPassword() {
+        if (changePasswordValidation()) {
+            $.ajax({
+                type: "POST",
+                url: '/Authentication/ChangeUserPassword',
+                data: {
+                    CurrentPassword: $("#CurrentPassword").val(),
+                    NewPassword: $("#NewPassword").val(),
+                    ConfirmPassword: $("#ConfirmPassword").val()
+                },
+                success: function (result) {
+                    if (result === "PolicyInvalid") {
+                        $.notify("Password doesn't adhere policy", "error");
+                        $(".passwordPolicyDiv").toggle();
+                    }
+                    if (result === "InvalidPassword") {
+                        errorNotify("CurrentPassword", "Please enter correct password");
+                    }
+                    else if (result == "0") {
+                        $.notify("Password changed successfully", "success");
+                        $(".changePasswordModal").modal("hide");
+                    }
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+
+    function changePasswordValidation() {
+        var submitFlag = true;
+
+        if ($("#CurrentPassword").val() == "") {
+            errorNotify("CurrentPassword", error["CurrentPassword"]);
+            submitFlag = false;
+        }
+        if ($("#NewPassword").val() == "") {
+            errorNotify("NewPassword", error["NewPassword"]);
+            submitFlag = false;
+        }
+        if ($("#ConfirmPassword").val() == "") {
+            errorNotify("ConfirmPassword", error["ConfirmPassword"]);
+            submitFlag = false;
+        }
+        if ($("#NewPassword").val() != $("#ConfirmPassword").val()) {
+            errorNotify("ConfirmPassword", error["SamePassword"]);
+            errorNotify("NewPassword", error["SamePassword"]);
+            submitFlag = false;
+        }
+
+        return submitFlag;
+    }
+</script>
+
+<!-- Change Password Confirm Box GERUA -->
+<div class="modal changePasswordModal" style="display: none">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title">Change Password</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Old Password<span class="red"> *</span></label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="CurrentPassword" placeholder="Password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">New Password<span class="red"> *</span></label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="NewPassword" placeholder="New Password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-4 control-label">Re-Type New Password<span class="red"> *</span></label>
+                            <div class="col-sm-8">
+                                <input type="password" class="form-control" id="ConfirmPassword" placeholder="Confirm Password" />
+                            </div>
+                        </div>
+                        <div class="form-group" style="text-align: right;">
+                            <a class=".showPolicy" onclick="Policy();" style="cursor: pointer;">Show Policy</a>
+                            <a class=".hidePolicy" onclick="Policy();" style="display: none; cursor: pointer;">Hide Policy</a>
+                        </div>
+                        <div class="form-group passwordPolicyDiv" style="background-color: #DC8686; border: 1px solid #A50F0F; font-weight: bold; display: none">
+                            <div style="padding: 1px 8px 0px 58px;">
+                                <p>Your new password should adhere following:</p>
+                                <ul>
+                                    <li>Minimum Length should be 5 and maximum length should be 8</li>
+                                    <li>Atleast 1 upper case letter</li>
+                                    <li>Atleast 1 lower case letter</li>
+                                    <li>Atleast 1 non alphabetic letter</li>
+                                    <li>Atleast 1 numeric letter</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" onclick="ChangeUserPassword();">Save</button>
+            </div>
+        </div>
+    </div>
+</div>

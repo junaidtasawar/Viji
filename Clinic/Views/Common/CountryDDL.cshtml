@@ -1,0 +1,42 @@
+﻿<input id="CountryAutocomplete" class="form-control" placeholder="Country">
+<script type="text/javascript">
+    $(function () {
+        $("#CountryAutocomplete").autocomplete({
+            source: function (request, response) {
+
+                $.ajax({
+                    url: "/common/GetCountries",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        term: $("#CountryAutocomplete").val()
+                    },
+                    success: function (data) {
+                        response($.map(data.rows, function (item) {
+                            return { label: item.cell, value: item.cell, id: item.i };
+                        }))
+                    }
+                })
+            },
+            minLength: 0,
+            minChars: 0,
+            max: 12,
+            autoFill: true,
+            mustMatch: true,
+            matchContains: false,
+            scrollHeight: 220,
+            select: function (event, ui) {
+            },//,
+            //messages: {
+            //    noResults: "", results: ""
+            //}
+            search: function () {
+            },
+            response: function () {
+            }
+        }).on('focus', function (event) {
+            var self = this;
+            $(self).autocomplete("search", "");;
+        });
+    });
+    </script>

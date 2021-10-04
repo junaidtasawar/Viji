@@ -1,0 +1,154 @@
+﻿@model Clinic.Models.LoginModel.LoginModel
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>dolfhin</title>
+    <meta name="keywords" content="MedicApp">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/assets/img/favicon.ico">
+    
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="~/assets/css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" href="~/assets/css/icofont.min.css" />
+    <link rel="stylesheet" href="~/assets/css/simple-line-icons.css" />
+    <link rel="stylesheet" href="~/assets/css/jquery.typeahead.css" />
+    <link rel="stylesheet" href="~/assets/css/datatables.min.css" />
+    <link rel="stylesheet" href="~/assets/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="~/assets/css/Chart.min.css" />
+    <link rel="stylesheet" href="~/assets/css/morris.css" />
+    <link rel="stylesheet" href="~/assets/css/leaflet.css" />
+
+    <!-- Theme CSS -->
+    <link href="~/assets/css/style.css" rel="stylesheet" />
+</head>
+
+
+<body class="public-layout">
+    <div class="app-loader main-loader">
+        <div class="loader-box">
+            <div class="bounceball"></div>
+            <div class="text">dolfhin<span>care intelligence</span></div>
+        </div>
+    </div>
+    <!-- .main-loader -->
+
+    <div class="page-box">
+        <div class="app-container page-sign-in">
+            <div class="content-box">
+                <div class="content-header">
+                    <div class="app-logo">
+                        <div class="logo-wrap">
+                            <img src="~/dist/img/dolfhin.png" alt="dolfhin care intelligence" width="300" height="66">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-body">
+
+                    <div class="w-100">
+                        <h2 class="h4 mt-0 mb-1">Sign in</h2>
+                        <p class="text-muted">Sign in to access your Account</p>
+                        <p class="text-muted" id="ErrorDisplay" style="color: red"></p>
+                        <form class="form-horizontal" id="LoginFormID" action="/authentication/AuthorizeUser" method="post">
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.UserName, new { placeholder = "Username", @class = "form-control", tabindex = 1 })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.PasswordFor(model => model.Password, new { placeholder = "Password", @class = "form-control", tabindex = 2 })
+                            </div>
+
+                            <div class="form-group custom-control custom-switch">
+                                @*<input type="checkbox" class="custom-control-input" id="remember-me" checked>
+                                    <label class="custom-control-label" for="remember-me">Remember me</label>*@
+                            </div>
+
+                            <div class="actions justify-content-between">
+                                <button class="btn btn-primary" onclick="AuthorizeUser();">
+                                    <span class="btn-icon icofont-login mr-2"></span>Sign in
+                                </button>
+                            </div>
+                        </form>
+
+                        <p class="mt-5 mb-1"><a href="/authentication/forgotpassword">Forgot password?</></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="~/assets/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="~/assets/js/jquery-3.3.1.min.js"></script>
+    <script src="~/assets/js/jquery-migrate-1.4.1.min.js"></script>
+    <script src="~/assets/js/popper.min.js"></script>
+    <script src="~/assets/js/bootstrap.min.js"></script>
+    <script src="~/assets/js/jquery.typeahead.min.js"></script>
+    <script src="~/assets/js/datatables.min.js"></script>
+    <script src="~/assets/js/bootstrap-select.min.js"></script>
+    <script src="~/assets/js/jquery.barrating.min.js"></script>
+    <script src="~/assets/js/Chart.min.js"></script>
+    <script src="~/assets/js/raphael-min.js"></script>
+    <script src="~/assets/js/morris.min.js"></script>
+    <script src="~/assets/js/echarts.min.js"></script>
+    <script src="~/assets/js/echarts-gl.min.js"></script>
+    <script src="~/assets/js/main.js"></script>
+    <script src="~/Scripts/Validation/validation.js"></script>
+    <script src="~/Scripts/utility/error.js"></script>
+    <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
+    <script>
+        $(function () {
+            $("#Username").focus();
+        });
+
+        $("#LoginFormID").submit(function (e) {
+            $("#ErrorDisplay").text("");
+            var postData = $(this).serializeArray();
+            var formURL = $(this).attr("action");
+            $.ajax(
+                {
+                    url: formURL,
+                    type: "POST",
+                    data: postData,
+                    success: function (message, textStatus, jqXHR) {
+                        if (message == "1") {
+                            window.location.href = "/home/RPMDashboard";
+                        }
+                        else if (message == "0") {
+                            $("#ErrorDisplay").text(error["IncorrectUsernameOrPassword"]);
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                    }
+                });
+            e.preventDefault(); //STOP default action
+            // e.unbind(); //unbind. to stop multiple form submit.
+        });
+
+        function AuthorizeUser() {
+            var message = ValidateLoginDetails();
+            if (message == "") {
+                $("#LoginFormID").submit();
+            }
+            else {
+                $("#ErrorDisplay").text(message);
+            }
+        }
+    </script>
+
+</body>
+</html>
